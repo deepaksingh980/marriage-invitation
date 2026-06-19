@@ -1,26 +1,619 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Cream, Rose Gold, Gold & Dark Burgundy Palette */
+  --background: #FDF5E8;
+  /* Primary Cream/Off-White */
+  --foreground: #1A0805;
+  /* Ink/Very Dark Brown */
+
+  --gold-light: #F7E7C1;
+  /* Pale Gold / Cream Gold */
+  --gold: #C9912E;
+  /* Accent Gold */
+  --gold-dark: #4A0A12;
+  /* Accent Dark Burgundy */
+  --saffron: #E8B84B;
+  /* Light Gold */
+  --rose-gold: #D8A28C;
+  /* Soft Rose Gold */
+  --cream: #FDF5E8;
+  /* Warm Cream */
+  --cream-dark: #F0DDB8;
+  /* Tan / Dark Cream */
+  --text-grey: #6F6A63;
+
+  /* Burgundy Accent Colors */
+  --burgundy-dark: #4A0A12;
+  --burgundy: #6B0F1A;
+  --burgundy-light: #8B1A28;
+  --ink: #1A0805;
 }
 
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  /* Fonts */
+  --font-display: var(--font-playfair), serif;
+  --font-cursive: var(--font-great-vibes), cursive;
+  --font-serif: var(--font-lora), serif;
+  --font-sans: var(--font-poppins), sans-serif;
+  --font-alt-sans: var(--font-montserrat), sans-serif;
+  --font-devanagari: var(--font-noto-devanagari), serif;
+  --font-bodoni: var(--font-bodoni), serif;
+
+  /* Accent Colors */
+  --color-gold-light: var(--gold-light);
+  --color-gold: var(--gold);
+  --color-gold-dark: var(--gold-dark);
+  --color-saffron: var(--saffron);
+  --color-rose-gold: var(--rose-gold);
+  --color-cream: var(--cream);
+  --color-cream-dark: var(--cream-dark);
+  --color-text-grey: var(--text-grey);
+
+  --color-burgundy-dark: var(--burgundy-dark);
+  --color-burgundy: var(--burgundy);
+  --color-burgundy-light: var(--burgundy-light);
+  --color-ink: var(--ink);
+
+  --color-luxury-dark: var(--burgundy);
+
+  /* Custom Transitions */
+  --transition-premium: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Selection style */
+::selection {
+  background-color: var(--gold-light);
+  color: var(--burgundy);
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+}
+
+/* Smooth Scroll config (Lenis) */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Premium Webkit Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #FAF7F2;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #E8B04A 0%, #D4AF37 100%);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #F0C46B 0%, #E8B04A 100%);
+}
+
+/* Glassmorphism Styles (Saffron Gold Theme) */
+.glass-premium {
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(232, 176, 74, 0.2);
+  box-shadow: 0 8px 32px 0 rgba(232, 176, 74, 0.08);
+  color: #5A4634;
+}
+
+.glass-premium-hover {
+  transition: var(--transition-premium);
+}
+
+.glass-premium-hover:hover {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: rgba(232, 176, 74, 0.45);
+  box-shadow: 0 12px 40px 0 rgba(232, 176, 74, 0.15);
+  transform: translateY(-4px);
+}
+
+/* Luxury Text & Border Gradients */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #F3D27F 0%, #D4AF37 50%, #A68018 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-rose-gold-gradient {
+  background: linear-gradient(135deg, #E8C1B0 0%, #D8A28C 50%, #B8765A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.border-gold-gradient {
+  border-image: linear-gradient(to right, #F6EEDF, #E8B04A, #D4AF37) 1;
+}
+
+.bg-gold-gradient {
+  background: linear-gradient(135deg, #F3D27F 0%, #D4AF37 50%, #A68018 100%);
+}
+
+.bg-saffron-gradient {
+  background: linear-gradient(135deg, #F0C46B 0%, #E8B04A 50%, #C48E27 100%);
+}
+
+.bg-radial-luxury {
+  background: radial-gradient(circle at center, #FFFDF9 0%, #FAF7F2 100%);
+}
+
+/* Animations & Microinteractions */
+@keyframes pulseGlow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 15px rgba(232, 176, 74, 0.15);
+  }
+
+  50% {
+    box-shadow: 0 0 25px rgba(232, 176, 74, 0.35);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGlow 3s infinite ease-in-out;
+}
+
+@keyframes floatSlow {
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+
+.animate-float-slow {
+  animation: floatSlow 6s infinite ease-in-out;
+}
+
+@keyframes spinSlow {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-slow {
+  animation: spinSlow 22s infinite linear;
+}
+
+/* Cinematic text shine */
+.text-shine {
+  background: linear-gradient(to right, #A68018 20%, #D4AF37 40%, #F3D27F 60%, #A68018 80%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine 8s linear infinite;
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* Soft Floating Leaf/Flower pattern */
+.bg-leaf-pattern {
+  background-image: radial-gradient(rgba(232, 176, 74, 0.05) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+/* ═══════════════════════════════════════════════
+   MAGICAL WEDDING JOURNEY — Chapter Animations
+═══════════════════════════════════════════════ */
+
+/* Sacred Particle Rise */
+@keyframes particleRise {
+  0% {
+    transform: translateY(0) translateX(0) scale(0);
+    opacity: 0;
+  }
+
+  20% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  80% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateY(-90px) translateX(15px) scale(0);
+    opacity: 0;
+  }
+}
+
+/* Petal Fall from top */
+@keyframes petalFall {
+  0% {
+    transform: translateY(-80px) rotate(0deg);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 0.9;
+  }
+
+  90% {
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: translateY(110vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Flower Shower */
+@keyframes flowerShower {
+  0% {
+    transform: translateY(-5vh) translateX(0) rotate(0deg);
+    opacity: 0;
+  }
+
+  8% {
+    opacity: 1;
+  }
+
+  92% {
+    opacity: 0.8;
+  }
+
+  100% {
+    transform: translateY(108vh) translateX(var(--drift-x, 30px)) rotate(var(--rot, 360deg));
+    opacity: 0;
+  }
+}
+
+/* Diya Flame Flicker */
+@keyframes divaFlicker {
+
+  0%,
+  100% {
+    filter: drop-shadow(0 0 6px rgba(232, 176, 74, 0.9)) brightness(1);
+  }
+
+  30% {
+    filter: drop-shadow(0 0 14px rgba(255, 200, 80, 1)) brightness(1.5);
+  }
+
+  60% {
+    filter: drop-shadow(0 0 4px rgba(200, 130, 30, 0.7)) brightness(0.9);
+  }
+
+  80% {
+    filter: drop-shadow(0 0 10px rgba(232, 176, 74, 1)) brightness(1.3);
+  }
+}
+
+.animate-diya-flicker {
+  animation: divaFlicker 1.8s ease-in-out infinite;
+}
+
+/* Golden Orb Float — large amplitude */
+@keyframes orbFloat {
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  33% {
+    transform: translateY(-18px) rotate(3deg);
+  }
+
+  66% {
+    transform: translateY(-9px) rotate(-2deg);
+  }
+}
+
+.animate-orb-float {
+  animation: orbFloat 7s ease-in-out infinite;
+}
+
+/* Frame Sway */
+@keyframes frameSway {
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  33% {
+    transform: translateY(-14px) rotate(0.6deg);
+  }
+
+  66% {
+    transform: translateY(-7px) rotate(-0.4deg);
+  }
+}
+
+.animate-frame-sway {
+  animation: frameSway 9s ease-in-out infinite;
+}
+
+.animate-frame-sway-delay {
+  animation: frameSway 9s ease-in-out infinite 2s;
+}
+
+.animate-frame-sway-delay2 {
+  animation: frameSway 11s ease-in-out infinite 4s;
+}
+
+/* Star Twinkle */
+@keyframes twinkle {
+
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+.star-twinkle {
+  animation: twinkle var(--duration, 3s) ease-in-out infinite var(--delay, 0s);
+}
+
+/* Luxury Glow Pulse */
+@keyframes luxuryGlow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.15), 0 0 50px rgba(212, 175, 55, 0.05);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.4), 0 0 80px rgba(212, 175, 55, 0.15);
+  }
+}
+
+.animate-luxury-glow {
+  animation: luxuryGlow 3.5s ease-in-out infinite;
+}
+
+/* Clock tick animation */
+@keyframes clockPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.03);
+  }
+}
+
+/* Path light travel */
+@keyframes pathLight {
+  0% {
+    stroke-dashoffset: 1000;
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+/* Parallax shimmer */
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+
+  100% {
+    background-position: 200% center;
+  }
+}
+
+.shimmer-text {
+  background: linear-gradient(90deg, #A68018 0%, #F3D27F 30%, #D4AF37 50%, #F3D27F 70%, #A68018 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+
+/* Dark luxury section base */
+.chapter-dark {
+  background: linear-gradient(180deg, #0D0700 0%, #150B00 50%, #0D0700 100%);
+}
+
+/* Floating island card */
+.island-card {
+  background: radial-gradient(ellipse at top, #2D1500 0%, #1A0C00 100%);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(212, 175, 55, 0.1);
+}
+
+/* Photo scatter frame */
+.photo-frame {
+  border: 3px solid rgba(212, 175, 55, 0.4);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(212, 175, 55, 0.1);
+}
+
+/* Gate metallic sheen */
+@keyframes gateSheen {
+
+  0%,
+  100% {
+    opacity: 0.05;
+  }
+
+  50% {
+    opacity: 0.2;
+  }
+}
+
+/* Countdown flip */
+@keyframes numberFlip {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.countdown-num-enter {
+  animation: numberFlip 0.3s ease-out forwards;
+}
+
+/* Beating Heart animation */
+@keyframes heartbeat {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.18);
+  }
+}
+
+.animate-heartbeat {
+  animation: heartbeat 1.2s infinite ease-in-out;
+}
+
+/* Concentric outline rings for couple photos */
+.h-person {
+  position: relative;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.h-person:hover {
+  transform: scale(1.04);
+}
+
+.r1,
+.r2,
+.r3 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 32px;
+  pointer-events: none;
+  z-index: -1;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.r1 {
+  width: calc(100% + 14px);
+  height: calc(100% + 14px);
+  border: 1.5px solid var(--gold);
+  --base-opacity: 0.8;
+  opacity: var(--base-opacity);
+  animation: ringPulse 3s infinite ease-in-out;
+}
+
+.r2 {
+  width: calc(100% + 30px);
+  height: calc(100% + 30px);
+  border: 1.5px dashed var(--gold);
+  --base-opacity: 0.55;
+  opacity: var(--base-opacity);
+  animation: ringPulse 4s infinite ease-in-out 0.5s;
+}
+
+.r3 {
+  width: calc(100% + 46px);
+  height: calc(100% + 46px);
+  border: 1.5px solid var(--gold);
+  --base-opacity: 0.15;
+  opacity: var(--base-opacity);
+  animation: ringPulse 5s infinite ease-in-out 1s;
+}
+
+@keyframes ringPulse {
+
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: var(--base-opacity);
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.03);
+    opacity: calc(var(--base-opacity) * 0.7);
+  }
+}
+
+/* Animated Royal Gradient Background */
+@keyframes bgGradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-bg-luxury {
+  background: linear-gradient(-45deg, #4A0E0E, #2A0508, #6B0F1A, #1F0104, #5C0F16) !important;
+  background-size: 400% 400% !important;
+  animation: bgGradientShift 18s ease infinite !important;
+}
+
+.animate-bg-luxury-light {
+  background: linear-gradient(-45deg, #FDF5E8, #FAF0DE, #F7E7C1, #F2E3C9, #FAF0DE) !important;
+  background-size: 400% 400% !important;
+  animation: bgGradientShift 18s ease infinite !important;
 }

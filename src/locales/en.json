@@ -1,0 +1,286 @@
+{
+  "common": {
+    "and": "and",
+    "backToTop": "Back to Top",
+    "rsvp": "RSVP"
+  },
+  "nav": {
+    "welcome": "WELCOME",
+    "story": "OUR STORY",
+    "couple": "THE COUPLE",
+    "events": "EVENTS",
+    "venue": "VENUE",
+    "gallery": "GALLERY",
+    "rsvp": "RSVP"
+  },
+  "hero": {
+    "ganesha": "॥ श्री गणेशाय नमः ॥",
+    "title": "THE ROYAL INVITATION",
+    "sub": "Celebrating the Union of",
+    "names": "DEEPAK & CHANDANI",
+    "families": "\"Together With Their Families Cordially Invite You To Celebrate Their Wedding\"",
+    "date": "FEBRUARY 10, 2027 • PALAMU, JHARKHAND",
+    "scroll": "Scroll to Reveal Details",
+    "keepScroll": "Keep Scrolling",
+    "blessings": "Lord Ganesha Blessings"
+  },
+  "welcome": {
+    "quote": "\"Once in a while, right in the middle of an ordinary life, love gives us a fairy tale.\"",
+    "heading": "WELCOME TO OUR BEGINNING",
+    "desc": "We are overjoyed to invite you to join us in celebrating our wedding festivities in Palamu, Jharkhand. As we take our sacred vows and begin our walk into forever under Ganesha's divine sight, your presence, blessings, and laughter will make our union truly unforgettable."
+  },
+  "story": {
+    "sub": "Three Chapters, One Beautiful Beginning",
+    "title": "OUR LOVE STORY",
+    "m1": {
+      "year": "04 DECEMBER 2025",
+      "title": "When Two Worlds Met",
+      "desc": "A crisp December afternoon, two families, and a first meeting that changed everything. She was wonderfully shy — soft smiles replacing words — but slowly, warmth found its way through. Then came the moment we still laugh about: our families forgot the traditional Sagun and had to return. In that small, unscripted pause, she smiled — and that smile became my very first favourite memory. Both families bonded instantly. My younger brother couldn't stop teasing me. The day ended in laughter, warmth, and the quiet feeling that something beautiful had just begun."
+    },
+    "m2": {
+      "year": "03 MARCH 2026",
+      "title": "Our First Chapter Together",
+      "desc": "Three months later, we met again — and everything felt wonderfully familiar. We exchanged gifts thoughtfully: I gave her earrings, bangles, hair accessories, and chocolates; she surprised me with so many KitKat bars I couldn't stop smiling. We shared a warm meal, then explored the Son River together. Out on the water, mid-boat ride, we celebrated our very first Holi — colours flying, laughter everywhere. Every moment was captured in photographs and videos. It was the kind of day you carry in your heart forever."
+    },
+    "m3": {
+      "year": "04 MAY 2026",
+      "title": "A Day the Heart Remembers",
+      "desc": "Some days need no grand occasion — just good company and the open road. We explored the city, enjoyed a meal, and took a long, joyful bike ride that felt like freedom. Between moments, she surprised me with a beautiful shirt she had thoughtfully chosen. I gave her chocolates in return. We clicked photographs, made videos, and laughed through every simple moment. Unhurried and entirely ours. By the time the day ended, we both knew — the simplest days make the most beautiful memories."
+    }
+  },
+  "couple": {
+    "sub": "Introducing the Couple",
+    "title": "THE GROOM & THE BRIDE",
+    "groom": {
+      "role": "THE GROOM",
+      "name": "Er. Deepak Kumar",
+      "parents": "Son of Mr. Vijendra Prasad & Mrs. Nirmala Devi (Sahiya)",
+      "dob": "Born: 31 May 1999",
+      "quote": "\"I choose you, and I will choose you over and over. Without pause, in a heartbeat, I will keep choosing you.\""
+    },
+    "bride": {
+      "role": "THE BRIDE",
+      "name": "Chandani Bhardwaj",
+      "parents": "Daughter of Mr. Satish Singh & Mrs. Binita Devi",
+      "dob": "Born: 19 Dec 2004",
+      "quote": "\"You are my today and all of my tomorrows. My heart is and always will be yours.\""
+    }
+  },
+  "events": {
+    "sub": "Schedule of Celebrations",
+    "title": "WEDDING EVENTS",
+    "dress": "Dress Code:",
+    "event": "EVENT",
+    "tilak": {
+      "title": "TILAK CEREMONY",
+      "date": "Sunday, Feb 07, 2027",
+      "time": "11:00 AM",
+      "desc": "The auspicious pre-wedding ritual marking the formal acceptance of the groom with traditional blessings and royal gifts."
+    },
+    "haldi": {
+      "title": "HALDI CEREMONY",
+      "date": "Monday, Feb 08, 2027",
+      "time": "10:00 AM",
+      "desc": "A vibrant ceremony of love and laughter as we apply golden turmeric paste, accompanied by traditional songs and music."
+    },
+    "ghidhahri": {
+      "title": "GHIDHAHRI CEREMONY",
+      "date": "Monday, Feb 08, 2027",
+      "time": "06:00 PM",
+      "desc": "A beautiful traditional gathering filled with joyous folk music, dance, and heart-warming melodies to celebrate family bonds."
+    },
+    "mehndi": {
+      "title": "MEHNDI CEREMONY",
+      "date": "Tuesday, Feb 09, 2027",
+      "time": "05:00 PM",
+      "desc": "Adorning the bride's hands with beautiful, intricate henna designs amidst music, joy, and blessings."
+    },
+    "wedding": {
+      "title": "WEDDING CEREMONY",
+      "date": "Wednesday, Feb 10, 2027",
+      "time": "07:00 PM",
+      "desc": "The grand wedding procession (Barat) followed by the sacred pheras around the holy fire to unite our souls forever."
+    }
+  },
+  "countdown": {
+    "sub": "Counting Down to the Sacred Union",
+    "title": "THE CELEBRATION BEGINS IN",
+    "days": "DAYS",
+    "hours": "HOURS",
+    "minutes": "MINUTES",
+    "seconds": "SECONDS"
+  },
+  "venue": {
+    "sub": "The Royal Destination",
+    "title": "THE WEDDING VENUE",
+    "celebrating": "CELEBRATING AT",
+    "palace": "THE WEDDING VENUE",
+    "desc": "Celebrating the wedding of Deepak & Chandani in Palamu, Jharkhand.",
+    "addressTitle": "OFFICIAL ADDRESS",
+    "address": "Palamu, Jharkhand 822115",
+    "assistance": "TRAVEL ASSISTANCE",
+    "rotate": "DRAG TO ROTATE 3D VENUE",
+    "btn": "GET DIRECTIONS",
+    "air": {
+      "title": "By Air",
+      "desc": "Birsa Munda Airport (IXR) in Ranchi or Gaya Airport (GAY) are the nearest airports. Pre-arranged shuttle transfers can be organized."
+    },
+    "train": {
+      "title": "By Train",
+      "desc": "Mohammad Ganj (MGS) or Japla (JPL) Railway Stations are the nearest transit points, connecting you directly to the venues."
+    }
+  },
+  "gallery": {
+    "sub": "Moments Frozen in Time",
+    "title": "GALLERY",
+    "venue": {
+      "cat": "VENUE",
+      "title": "The Grand Wedding Venue"
+    },
+    "groom": {
+      "cat": "GROOM",
+      "title": "Groom Er. Deepak Kumar Portrait"
+    },
+    "bride": {
+      "cat": "BRIDE",
+      "title": "Bride Chandani Bhardwaj Portrait"
+    },
+    "celebrations": {
+      "cat": "CELEBRATIONS",
+      "title": "Royal Celebrations Courtyard"
+    }
+  },
+  "family": {
+    "sub": "With Love & Blessings",
+    "title": "OUR FAMILIES",
+    "groomSide": "GROOM'S SIDE",
+    "brideSide": "BRIDE'S SIDE",
+    "groom": {
+      "familyName": "PRASAD FAMILY",
+      "blessings": "With blessings from Mr. Vijendra Prasad & Mrs. Nirmala Devi (Sahiya)",
+      "grandparents": "Grandparents",
+      "grandparentsNames": "Late Mr. Hari Shankar Sharma & Mrs. Savitri Devi",
+      "parents": "Parents",
+      "parentsNames": "Mr. Vijendra Prasad & Mrs. Nirmala Devi (Sahiya)",
+      "brothers": "Brother",
+      "brothersNames": "Raju Kumar",
+      "uncle": "Uncle & Aunt",
+      "uncleNames": "Mr. D.K. Sharma & Mrs. Meena Sharma",
+      "father": {
+        "name": "Mr. Vijendra Prasad",
+        "role": "Father"
+      },
+      "mother": {
+        "name": "Mrs. Nirmala Devi (Sahiya)",
+        "role": "Mother"
+      },
+      "sibling": {
+        "name": "Raju Kumar",
+        "role": "Brother"
+      }
+    },
+    "bride": {
+      "familyName": "SINGH FAMILY",
+      "blessings": "With blessings from Mr. Satish Singh & Mrs. Binita Devi",
+      "grandparents": "Grandparents",
+      "grandparentsNames": "Mr. Dwarka Prasad Joshi & Mrs. Laxmi Devi",
+      "parents": "Parents",
+      "parentsNames": "Mr. Satish Singh & Mrs. Binita Devi",
+      "brothers": "Brothers",
+      "brothersNames": "Golu Bhardwaj & Krish Bhardwaj",
+      "sister": "Sister",
+      "sisterNames": "Miss Pooja Joshi",
+      "father": {
+        "name": "Mr. Satish Singh",
+        "role": "Father"
+      },
+      "mother": {
+        "name": "Mrs. Binita Devi",
+        "role": "Mother"
+      },
+      "sibling": {
+        "name": "Golu Bhardwaj",
+        "role": "Brother"
+      },
+      "sibling2": {
+        "name": "Krish Bhardwaj",
+        "role": "Brother"
+      }
+    }
+  },
+  "rsvp": {
+    "sub": "Be Our Valued Guest",
+    "title": "R.S.V.P.",
+    "deadline": "Please respond by January 10, 2027, to help us curate the perfect experience for you.",
+    "form": {
+      "nameLabel": "Full Name *",
+      "namePlaceholder": "e.g. Mr. Rajesh Patel",
+      "emailLabel": "Email Address *",
+      "emailPlaceholder": "yourname@domain.com",
+      "attendLabel": "Will You Attend?",
+      "accept": "Joyfully Accept",
+      "decline": "Regretfully Decline",
+      "guestsLabel": "Number of Guests",
+      "mealLabel": "Meal Preference",
+      "veg": "Pure Vegetarian",
+      "nonveg": "Non-Vegetarian",
+      "jain": "Jain Food",
+      "msgLabel": "Wishes & Diet Notes",
+      "msgPlaceholder": "Any message or dietary restrictions (e.g. gluten-free)",
+      "submit": "CONFIRM R.S.V.P.",
+      "errors": {
+        "name": "Full name is required",
+        "email": "Email address is required",
+        "emailInvalid": "Please enter a valid email address"
+      }
+    },
+    "success": {
+      "acceptTitle": "THANK YOU FOR ACCEPTING!",
+      "declineTitle": "WE WILL MISS YOU!",
+      "acceptDesc": "Your response has been saved. We are thrilled to celebrate with you and your guests!",
+      "declineDesc": "We are deeply saddened that you cannot make it, but we are extremely grateful for your warm blessings and wishes.",
+      "edit": "EDIT RESPONSE"
+    }
+  },
+  "wishes": {
+    "sub": "Guest Blessings & Messages",
+    "title": "GUEST WISHES",
+    "leave": "LEAVE A BLESSING",
+    "nameLabel": "Your Name *",
+    "namePlaceholder": "Enter your full name",
+    "relationLabel": "Relation / Group",
+    "relationPlaceholder": "e.g. Groom's Friend, College Mate",
+    "msgLabel": "Your Message *",
+    "msgPlaceholder": "Write your blessings...",
+    "submit": "SEND BLESSINGS",
+    "success": {
+      "title": "BLESSINGS RECEIVED",
+      "desc": "Your heart-warming blessing has been added to our live wedding board. Thank you!"
+    },
+    "live": "LIVE CELEBRATION BOARD"
+  },
+  "gift": {
+    "sub": "Wedding Registry & Shagun",
+    "title": "REGISTRY & BLESSINGS",
+    "note": "A NOTE ON GIFTS",
+    "shagun": "Virtual Shagun Registry",
+    "desc": "Your blessings and presence at our wedding are the most precious gifts we could ever receive. However, if you wish to honor us with a gift or virtual Shagun, we have set up this registry card for your convenience.",
+    "bank": "Bank Name",
+    "bankName": "State Bank of India (Palamu Branch)",
+    "holder": "Account Holder",
+    "number": "Account Number",
+    "ifsc": "IFSC Code",
+    "qr": "UPI Scan & Pay",
+    "qrTitle": "Shagun QR Code",
+    "upi": "Or transfer directly using UPI ID:"
+  },
+  "footer": {
+    "quote": "\"Your love, support, and blessings mean the world to us. We cannot wait to raise a toast to our new beginning together with you.\"",
+    "love": "© 2027 DEEPAK & CHANDANI • HANDCRAFTED WITH LOVE"
+  },
+  "loading": {
+    "invoking": "Invoking Lord Ganesha",
+    "enter": "ENTER PALACE",
+    "date": "Palamu, Jharkhand • February 2027"
+  }
+}
