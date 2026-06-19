@@ -2,12 +2,12 @@
 
 import React, { useState, useMemo, useEffect, useRef } from "react";
 import { useAudio } from "@/context/AudioContext";
+import { SkipBack, SkipForward, Menu, Heart } from "lucide-react";
 import { useTranslation } from "@/context/LanguageContext";
-import { Menu, Heart } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
-  const { isPlaying, togglePlay } = useAudio();
+  const { isPlaying, currentTrack, togglePlay, nextTrack, prevTrack } = useAudio();
   const { t, locale, setLocale } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -105,66 +105,182 @@ export default function Navbar() {
               >हिन्दी</button>
             </div>
 
-            {/* ── Music Icon Button (single, clean) ── */}
-            <button
-              onClick={togglePlay}
-              aria-label={isPlaying ? "Pause Music" : "Play Music"}
-              style={{
-                position: "relative",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: 36,
-                height: 36,
-                borderRadius: "50%",
-                border: `1.5px solid ${isPlaying ? "rgba(232,176,74,0.6)" : "rgba(212,175,55,0.3)"}`,
-                background: isPlaying ? "rgba(232,176,74,0.12)" : "rgba(255,255,255,0.7)",
-                boxShadow: isPlaying ? "0 0 12px rgba(212,175,55,0.25)" : "0 1px 4px rgba(0,0,0,0.06)",
-                cursor: "pointer",
-                outline: "none",
-                transition: "all 0.3s ease",
-                flexShrink: 0,
-              }}
-            >
-              {/* Ping rings when playing */}
-              {isPlaying && (
-                <>
-                  <span style={{
-                    position: "absolute", inset: -3, borderRadius: "50%",
-                    border: "1px solid rgba(232,176,74,0.35)",
-                    animation: "ping 1.8s ease-out infinite",
-                  }} />
-                  <span style={{
-                    position: "absolute", inset: -7, borderRadius: "50%",
-                    border: "1px solid rgba(212,175,55,0.18)",
-                    animation: "ping 2.6s ease-out infinite 0.4s",
-                  }} />
-                </>
-              )}
+            {/* ── Mini Music Player ── */}
+            <div style={{ display: "flex", alignItems: "center", gap: 4, position: "relative" }}>
 
-              {/* Equalizer (playing) */}
-              {isPlaying ? (
-                <div style={{ display: "flex", alignItems: "flex-end", gap: 2, height: 14, width: 14 }}>
-                  {[0, 1, 2].map((i) => (
-                    <span key={i} style={{
-                      width: 3, height: "100%", borderRadius: 2,
-                      background: "#C9912E",
-                      transformOrigin: "bottom",
-                      animation: `bounceWave 1.1s ease-in-out infinite`,
-                      animationDelay: `${i * 0.16}s`,
-                      display: "block",
-                    }} />
-                  ))}
-                </div>
-              ) : (
-                /* Music note icon (paused) */
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9912E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M9 18V5l12-2v13" />
-                  <circle cx="6" cy="18" r="3" />
-                  <circle cx="18" cy="16" r="3" />
-                </svg>
-              )}
-            </button>
+              {/* Prev track */}
+              <AnimatePresence>
+                {isPlaying && (
+                  <motion.button
+                    key="prev"
+                    initial={{ opacity: 0, scale: 0.6, x: 8 }}
+                    animate={{ opacity: 1, scale: 1, x: 0 }}
+                    exit={{ opacity: 0, scale: 0.6, x: 8 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                    onClick={prevTrack}
+                    aria-label="Previous track"
+                    style={{
+                      width: 28, height: 28, borderRadius: "50%",
+                      border: "1px solid rgba(212,175,55,0.28)",
+                      background: "rgba(255,255,255,0.65)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      cursor: "pointer", outline: "none",
+                      color: "#C9912E", flexShrink: 0,
+                    }}
+                  >
+                    <SkipBack size={11} strokeWidth={2.5} />
+                  </motion.button>
+                )}
+              </AnimatePresence>
+
+              {/* Play / Pause button */}
+              <div style={{ position: "relative" }}>
+                {/* Ping rings when playing */}
+                <AnimatePresence>
+                  {isPlaying && (
+                    <>
+                      <motion.span
+                        key="ring1"
+                        initial={{ scale: 1, opacity: 0.5 }}
+                        animate={{ scale: 1.55, opacity: 0 }}
+                        transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
+                        style={{
+                          position: "absolute", inset: -3, borderRadius: "50%",
+                          border: "1px solid rgba(232,176,74,0.5)",
+                          pointerEvents: "none",
+                        }}
+                      />
+                      <motion.span
+                        key="ring2"
+                        initial={{ scale: 1, opacity: 0.3 }}
+                        animate={{ scale: 1.85, opacity: 0 }}
+                        transition={{ duration: 2.6, repeat: Infinity, ease: "easeOut", delay: 0.4 }}
+                        style={{
+                          position: "absolute", inset: -3, borderRadius: "50%",
+                          border: "1px solid rgba(212,175,55,0.25)",
+                          pointerEvents: "none",
+                        }}
+                      />
+                    </>
+                  )}
+                </AnimatePresence>
+
+                <button
+                  onClick={togglePlay}
+                  aria-label={isPlaying ? "Pause Music" : "Play Music"}
+                  style={{
+                    position: "relative",
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    width: 36, height: 36, borderRadius: "50%",
+                    border: `1.5px solid ${isPlaying ? "rgba(232,176,74,0.6)" : "rgba(212,175,55,0.3)"}`,
+                    background: isPlaying ? "rgba(232,176,74,0.12)" : "rgba(255,255,255,0.7)",
+                    boxShadow: isPlaying ? "0 0 12px rgba(212,175,55,0.25)" : "0 1px 4px rgba(0,0,0,0.06)",
+                    cursor: "pointer", outline: "none",
+                    transition: "all 0.3s ease", flexShrink: 0,
+                  }}
+                >
+                  {isPlaying ? (
+                    <div style={{ display: "flex", alignItems: "flex-end", gap: 2, height: 14, width: 14 }}>
+                      {[0, 1, 2].map((i) => (
+                        <span key={i} style={{
+                          width: 3, height: "100%", borderRadius: 2,
+                          background: "#C9912E", transformOrigin: "bottom",
+                          animation: "bounceWave 1.1s ease-in-out infinite",
+                          animationDelay: `${i * 0.16}s`, display: "block",
+                        }} />
+                      ))}
+                    </div>
+                  ) : (
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9912E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M9 18V5l12-2v13" />
+                      <circle cx="6" cy="18" r="3" />
+                      <circle cx="18" cy="16" r="3" />
+                    </svg>
+                  )}
+                </button>
+              </div>
+
+              {/* Next track */}
+              <AnimatePresence>
+                {isPlaying && (
+                  <motion.button
+                    key="next"
+                    initial={{ opacity: 0, scale: 0.6, x: -8 }}
+                    animate={{ opacity: 1, scale: 1, x: 0 }}
+                    exit={{ opacity: 0, scale: 0.6, x: -8 }}
+                    transition={{ type: "spring", stiffness: 300, damping: 22 }}
+                    onClick={nextTrack}
+                    aria-label="Next track"
+                    style={{
+                      width: 28, height: 28, borderRadius: "50%",
+                      border: "1px solid rgba(212,175,55,0.28)",
+                      background: "rgba(255,255,255,0.65)",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                      cursor: "pointer", outline: "none",
+                      color: "#C9912E", flexShrink: 0,
+                    }}
+                  >
+                    <SkipForward size={11} strokeWidth={2.5} />
+                  </motion.button>
+                )}
+              </AnimatePresence>
+
+              {/* Now-playing pill — floats below the player */}
+              <AnimatePresence>
+                {isPlaying && (
+                  <motion.div
+                    key="nowplaying"
+                    initial={{ opacity: 0, y: -6, scale: 0.9 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -6, scale: 0.9 }}
+                    transition={{ type: "spring", stiffness: 260, damping: 22, delay: 0.15 }}
+                    style={{
+                      position: "absolute",
+                      top: "calc(100% + 10px)",
+                      left: "50%",
+                      transform: "translateX(-50%)",
+                      background: "rgba(255,253,249,0.97)",
+                      backdropFilter: "blur(12px)",
+                      WebkitBackdropFilter: "blur(12px)",
+                      border: "1px solid rgba(212,175,55,0.28)",
+                      borderRadius: "2rem",
+                      padding: "0.3rem 0.85rem",
+                      boxShadow: "0 6px 20px rgba(90,70,52,0.12)",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      gap: "0.05rem",
+                      whiteSpace: "nowrap",
+                      pointerEvents: "none",
+                      zIndex: 60,
+                    }}
+                  >
+                    {/* Tiny music note + title */}
+                    <span style={{
+                      fontFamily: "var(--font-poppins), sans-serif",
+                      fontSize: "0.62rem",
+                      fontWeight: 700,
+                      color: "#3E2A1A",
+                      letterSpacing: "0.04em",
+                      display: "flex", alignItems: "center", gap: "0.3rem",
+                    }}>
+                      <span style={{ color: "#C9912E", fontSize: "0.7rem" }}>♫</span>
+                      {currentTrack.title}
+                    </span>
+                    <span style={{
+                      fontFamily: "var(--font-lora), serif",
+                      fontSize: "0.54rem",
+                      fontStyle: "italic",
+                      color: "rgba(90,70,52,0.6)",
+                      letterSpacing: "0.02em",
+                    }}>
+                      {currentTrack.artist}
+                    </span>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
+            </div>
 
             {/* Hamburger (mobile/tablet only) — shows Menu icon always, no X */}
             <button

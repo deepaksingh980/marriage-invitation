@@ -178,7 +178,7 @@ export default function Footer() {
           animate={visible ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.1 }}
           style={{
-            fontFamily: "var(--font-inter),sans-serif",
+            fontFamily: "var(--font-poppins),sans-serif",
             fontSize: "0.58rem",
             letterSpacing: "0.55em",
             color: "rgba(232,176,74,0.5)",
@@ -249,7 +249,7 @@ export default function Footer() {
           animate={visible ? { opacity: 1 } : {}}
           transition={{ duration: 1, delay: 0.9 }}
           style={{
-            fontFamily: "var(--font-cormorant),serif",
+            fontFamily: "var(--font-playfair),serif",
             fontSize: "clamp(1rem,3vw,1.4rem)",
             fontWeight: 300,
             color: SAFFRON,
@@ -268,7 +268,7 @@ export default function Footer() {
           transition={{ duration: 1, delay: 1.1 }}
           className="shimmer-text"
           style={{
-            fontFamily: "var(--font-cormorant),serif",
+            fontFamily: "var(--font-playfair),serif",
             fontSize: "clamp(2rem,7vw,4.5rem)",
             fontWeight: 300,
             letterSpacing: "0.12em",
@@ -283,7 +283,7 @@ export default function Footer() {
           animate={visible ? { opacity: 1 } : {}}
           transition={{ duration: 1, delay: 1.4 }}
           style={{
-            fontFamily: "var(--font-cormorant),serif",
+            fontFamily: "var(--font-playfair),serif",
             fontStyle: "italic",
             fontSize: "clamp(0.95rem,2.5vw,1.2rem)",
             color: "rgba(246,238,223,0.45)",
@@ -330,7 +330,7 @@ export default function Footer() {
           <div style={{ height: 1, width: 80, background: `linear-gradient(to right,transparent,${GOLD}55)` }} />
           <span
             style={{
-              fontFamily: "var(--font-inter),sans-serif",
+              fontFamily: "var(--font-poppins),sans-serif",
               fontSize: "0.65rem",
               letterSpacing: "0.3em",
               color: "rgba(232,176,74,0.5)",
@@ -363,7 +363,7 @@ export default function Footer() {
             key={href}
             href={href}
             style={{
-              fontFamily: "var(--font-inter),sans-serif",
+              fontFamily: "var(--font-poppins),sans-serif",
               fontSize: "0.58rem",
               letterSpacing: "0.3em",
               color: "rgba(232,176,74,0.4)",
@@ -387,7 +387,7 @@ export default function Footer() {
         style={{
           position: "relative",
           zIndex: 10,
-          fontFamily: "var(--font-inter),sans-serif",
+          fontFamily: "var(--font-poppins),sans-serif",
           fontSize: "0.6rem",
           color: "rgba(246,238,223,0.2)",
           letterSpacing: "0.15em",
