@@ -31,11 +31,12 @@ const initForm: FormState = {
 };
 
 export default function RSVP() {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [form, setForm] = useState<FormState>(initForm);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const set = (k: keyof FormState) => (v: string) =>
     setForm((f) => ({ ...f, [k]: v }));
@@ -43,9 +44,23 @@ export default function RSVP() {
   const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1200));
-    setLoading(false);
-    setSubmitted(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Submission failed. Please try again.");
+      }
+      setSubmitted(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const inputStyle: React.CSSProperties = {
@@ -220,52 +235,55 @@ export default function RSVP() {
 
             <p
               style={{
-                fontFamily: "var(--font-serif), serif",
-                fontStyle: "italic",
-                fontSize: "0.85rem",
+                fontFamily: locale === "hi" ? "var(--font-noto-devanagari)" : "var(--font-serif), serif",
+                fontStyle: locale === "hi" ? "normal" : "italic",
+                fontSize: locale === "hi" ? "0.95rem" : "0.85rem",
                 color: "var(--foreground)",
                 opacity: 0.8,
-                letterSpacing: "0.15em",
+                letterSpacing: locale === "hi" ? "0.05em" : "0.15em",
                 marginBottom: "0.6rem",
+                fontWeight: locale === "hi" ? 500 : 400,
               }}
             >
-              Together with their families
+              {locale === "hi" ? "अपने परिजनों के साथ" : "Together with their families"}
             </p>
             <h3
               style={{
-                fontFamily: "var(--font-display), serif",
-                fontSize: "clamp(1.4rem, 4vw, 2.1rem)",
+                fontFamily: locale === "hi" ? "var(--font-noto-devanagari)" : "var(--font-display), serif",
+                fontSize: locale === "hi" ? "clamp(1.2rem, 3.5vw, 1.8rem)" : "clamp(1.4rem, 4vw, 2.1rem)",
                 fontWeight: 600,
-                letterSpacing: "0.18em",
+                letterSpacing: locale === "hi" ? "0.05em" : "0.18em",
                 color: "var(--burgundy)",
                 marginBottom: "0.5rem",
               }}
             >
-              DEEPAK & CHANDANI
+              {locale === "hi" ? "दीपक संग चांदनी" : "DEEPAK WEDS CHANDANI"}
             </h3>
             <p
               style={{
-                fontFamily: "var(--font-serif), serif",
-                fontStyle: "italic",
-                fontSize: "0.85rem",
+                fontFamily: locale === "hi" ? "var(--font-noto-devanagari)" : "var(--font-serif), serif",
+                fontStyle: locale === "hi" ? "normal" : "italic",
+                fontSize: locale === "hi" ? "0.9rem" : "0.85rem",
                 color: "var(--foreground)",
                 opacity: 0.8,
-                letterSpacing: "0.12em",
+                letterSpacing: locale === "hi" ? "0.03em" : "0.12em",
                 marginBottom: "1.2rem",
+                lineHeight: locale === "hi" ? 1.45 : 1.2,
+                fontWeight: locale === "hi" ? 500 : 400,
               }}
             >
-              request the honour of your presence
+              {locale === "hi" ? "आपको अपने पावन विवाह उत्सव में शामिल होने के लिए सादर आमंत्रित करते हैं" : "request the honour of your presence"}
             </p>
             <p
               style={{
-                fontFamily: "var(--font-sans), sans-serif",
-                fontSize: "0.75rem",
+                fontFamily: locale === "hi" ? "var(--font-noto-devanagari)" : "var(--font-sans), sans-serif",
+                fontSize: locale === "hi" ? "0.8rem" : "0.75rem",
                 color: "var(--burgundy-light)",
-                fontWeight: 500,
-                letterSpacing: "0.1em",
+                fontWeight: locale === "hi" ? 600 : 500,
+                letterSpacing: locale === "hi" ? "0.05em" : "0.1em",
               }}
             >
-              10 February 2027 — Palamu, Jharkhand
+              {locale === "hi" ? "10 फरवरी, 2027 — पलामू, झारखंड" : "10 February 2027 — Palamu, Jharkhand"}
             </p>
 
             {!isOpen && (
@@ -282,18 +300,18 @@ export default function RSVP() {
                     padding: "0.75rem 1.8rem",
                     background: `linear-gradient(135deg,${SAFFRON},${GOLD})`,
                     color: "var(--burgundy-dark)",
-                    fontFamily: "var(--font-sans), sans-serif",
+                    fontFamily: locale === "hi" ? "var(--font-noto-devanagari)" : "var(--font-sans), sans-serif",
                     fontWeight: 600,
-                    fontSize: "0.65rem",
-                    letterSpacing: "0.2em",
-                    textTransform: "uppercase",
+                    fontSize: locale === "hi" ? "0.75rem" : "0.65rem",
+                    letterSpacing: locale === "hi" ? "0.05em" : "0.2em",
+                    textTransform: locale === "hi" ? "none" : "uppercase",
                     border: "none",
                     borderRadius: "2rem",
                     cursor: "pointer",
                     boxShadow: `0 8px 25px rgba(201, 145, 46, 0.25)`,
                   }}
                 >
-                  ✦ Open Invitation
+                  {locale === "hi" ? "✦ निमंत्रण पत्र खोलें" : "✦ Open Invitation"}
                 </button>
               </motion.div>
             )}
@@ -334,7 +352,9 @@ export default function RSVP() {
                             background: "rgba(201, 145, 46, 0.1)",
                           }}
                         >
-                          <span style={{ fontSize: "1.6rem", color: "var(--gold)" }}>✦</span>
+                          <span style={{ fontSize: "1.6rem", color: "var(--gold)" }}>
+                            {form.attendance === "yes" ? "💍" : "🙏"}
+                          </span>
                         </motion.div>
                         <h4
                           style={{
@@ -346,7 +366,9 @@ export default function RSVP() {
                             marginBottom: "0.75rem",
                           }}
                         >
-                          {t("rsvp.success.title")}
+                          {form.attendance === "yes"
+                            ? t("rsvp.success.acceptTitle")
+                            : t("rsvp.success.declineTitle")}
                         </h4>
                         <p
                           style={{
@@ -355,10 +377,26 @@ export default function RSVP() {
                             color: "var(--foreground)",
                             opacity: 0.8,
                             lineHeight: 1.6,
+                            marginBottom: "0.75rem",
                           }}
                         >
-                          {t("rsvp.success.msg")}
+                          {form.attendance === "yes"
+                            ? t("rsvp.success.acceptDesc")
+                            : t("rsvp.success.declineDesc")}
                         </p>
+                        {form.email && (
+                          <p
+                            style={{
+                              fontFamily: "var(--font-sans), sans-serif",
+                              fontSize: "0.72rem",
+                              color: "var(--gold)",
+                              letterSpacing: "0.05em",
+                              opacity: 0.85,
+                            }}
+                          >
+                            📧 A confirmation email has been sent to {form.email}
+                          </p>
+                        )}
                       </motion.div>
                     ) : (
                       <motion.form
@@ -426,15 +464,30 @@ export default function RSVP() {
                           </div>
                         </div>
 
-                        <div>
-                          <label style={labelStyle}>{t("rsvp.email")}</label>
-                          <input
-                            type="email"
-                            value={form.email}
-                            onChange={(e) => set("email")(e.target.value)}
-                            style={inputStyle}
-                            placeholder={t("rsvp.emailPlaceholder")}
-                          />
+                        {/* Email + Phone row */}
+                        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.8rem" }}>
+                          <div>
+                            <label style={labelStyle}>{t("rsvp.form.emailLabel")}</label>
+                            <input
+                              type="email"
+                              value={form.email}
+                              onChange={(e) => set("email")(e.target.value)}
+                              style={inputStyle}
+                              placeholder={t("rsvp.form.emailPlaceholder")}
+                            />
+                          </div>
+                          <div>
+                            <label style={labelStyle}>
+                              {locale === "hi" ? "मोबाइल नंबर" : "Mobile Number"}
+                            </label>
+                            <input
+                              type="tel"
+                              value={form.phone}
+                              onChange={(e) => set("phone")(e.target.value)}
+                              style={inputStyle}
+                              placeholder="+91 98765 43210"
+                            />
+                          </div>
                         </div>
 
                         {/* Meal preference */}
@@ -477,6 +530,25 @@ export default function RSVP() {
                             placeholder={t("rsvp.messagePlaceholder")}
                           />
                         </div>
+
+                        {error && (
+                          <p
+                            style={{
+                              fontFamily: "var(--font-sans), sans-serif",
+                              fontSize: "0.72rem",
+                              color: "#C62828",
+                              letterSpacing: "0.04em",
+                              textAlign: "center",
+                              margin: "0",
+                              padding: "0.6rem 0.8rem",
+                              background: "rgba(198,40,40,0.06)",
+                              borderRadius: "0.5rem",
+                              border: "1px solid rgba(198,40,40,0.2)",
+                            }}
+                          >
+                            ⚠️ {error}
+                          </p>
+                        )}
 
                         <button
                           type="submit"

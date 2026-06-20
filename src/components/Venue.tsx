@@ -65,7 +65,7 @@ function AnimatedVectorMap({ googleMapsUrl }: { googleMapsUrl: string }) {
       <div className="absolute bottom-1 right-2 text-[7px] text-[#D4AF37]/70 uppercase tracking-widest pointer-events-none group-hover:text-[#FFC83B] transition-colors">
         <span>Click to View Map ✦</span>
       </div>
-      
+
       <div className="absolute top-1 left-2 text-[6.5px] text-[#FAF7F2]/40 uppercase tracking-widest pointer-events-none">
         <span>GPS coordinates mapped</span>
       </div>
@@ -93,8 +93,8 @@ export default function Venue() {
       id: "wedding",
       titleEn: "Wedding Ceremony Venue",
       titleHi: "शुभ विवाह स्थल",
-      hostEn: "Mr. Satish Singh",
-      hostHi: "श्री सतीश सिंह निवास",
+      hostEn: "Mr. Satish Chandravanshi",
+      hostHi: "श्री सतीश चंद्रवंशी निवास",
       address: "Vill- badepur, po- badepur, ps- japla, dist palamu, jharkhand 822116",
       mapsUrl: "https://www.google.com/maps/search/?api=1&query=Mr.+Satish+singh+Vill+badepur+po+badepur+ps+japla+dist+palamu+jharkhand+822116",
       bgGradient: "linear-gradient(135deg, #701019 0%, #3C050B 100%)",
@@ -193,7 +193,7 @@ export default function Venue() {
                 >
                   {/* Decorative dashed boundary frame */}
                   <div className="absolute inset-[4px] border border-dashed border-[#D4AF37]/15 rounded-[0.9rem] pointer-events-none" />
-                  
+
                   {/* Corner Ornaments */}
                   <GoldCornerOrnaments />
 

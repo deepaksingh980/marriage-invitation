@@ -60,9 +60,9 @@
     },
     "bride": {
       "role": "THE BRIDE",
-      "name": "Chandani Bhardwaj",
-      "parents": "Daughter of Mr. Satish Singh & Mrs. Binita Devi",
-      "dob": "Born: 19 Dec 2004",
+      "name": "Chandani Kumari",
+      "parents": "Daughter of Mr. Satish Chandravanshi & Mrs. Binita Devi",
+      "dob": "Born: 19 Dec 2003",
       "quote": "\"You are my today and all of my tomorrows. My heart is and always will be yours.\""
     }
   },
@@ -86,8 +86,8 @@
     "ghidhahri": {
       "title": "GHIDHAHRI CEREMONY",
       "date": "Monday, Feb 08, 2027",
-      "time": "06:00 PM",
-      "desc": "A beautiful traditional gathering filled with joyous folk music, dance, and heart-warming melodies to celebrate family bonds."
+      "time": "12:00 PM",
+      "desc": "A sacred family ritual dedicated to worshipping the household deity and seeking divine blessings for the upcoming wedding celebrations. Family members gather together to perform traditional prayers and rituals in a spiritual atmosphere."
     },
     "mehndi": {
       "title": "MEHNDI CEREMONY",
@@ -143,7 +143,7 @@
     },
     "bride": {
       "cat": "BRIDE",
-      "title": "Bride Chandani Bhardwaj Portrait"
+      "title": "Bride Chandani Kumari Portrait"
     },
     "celebrations": {
       "cat": "CELEBRATIONS",
@@ -156,10 +156,11 @@
     "groomSide": "GROOM'S SIDE",
     "brideSide": "BRIDE'S SIDE",
     "groom": {
-      "familyName": "PRASAD FAMILY",
+      "title": "Groom Chandravanshi Family",
+      "familyName": "Chandravanshi FAMILY",
       "blessings": "With blessings from Mr. Vijendra Prasad & Mrs. Nirmala Devi (Sahiya)",
       "grandparents": "Grandparents",
-      "grandparentsNames": "Late Mr. Hari Shankar Sharma & Mrs. Savitri Devi",
+      "grandparentsNames": "Late Mr. Jageshwar Chandravanshi & Late Mrs. Manorma Devi",
       "parents": "Parents",
       "parentsNames": "Mr. Vijendra Prasad & Mrs. Nirmala Devi (Sahiya)",
       "brothers": "Brother",
@@ -180,18 +181,19 @@
       }
     },
     "bride": {
-      "familyName": "SINGH FAMILY",
-      "blessings": "With blessings from Mr. Satish Singh & Mrs. Binita Devi",
+      "title": "Bride Chandravanshi Family",
+      "familyName": "Chandravanshi FAMILY",
+      "blessings": "With blessings from Mr. Satish Chandravanshi & Mrs. Binita Devi",
       "grandparents": "Grandparents",
       "grandparentsNames": "Mr. Dwarka Prasad Joshi & Mrs. Laxmi Devi",
       "parents": "Parents",
-      "parentsNames": "Mr. Satish Singh & Mrs. Binita Devi",
+      "parentsNames": "Mr. Satish Chandravanshi & Mrs. Binita Devi",
       "brothers": "Brothers",
-      "brothersNames": "Golu Bhardwaj & Krish Bhardwaj",
+      "brothersNames": "Golu Kumar & Krish Kumar",
       "sister": "Sister",
       "sisterNames": "Miss Pooja Joshi",
       "father": {
-        "name": "Mr. Satish Singh",
+        "name": "Mr. Satish Chandravanshi",
         "role": "Father"
       },
       "mother": {
@@ -199,11 +201,11 @@
         "role": "Mother"
       },
       "sibling": {
-        "name": "Golu Bhardwaj",
+        "name": "Golu Kumar",
         "role": "Brother"
       },
       "sibling2": {
-        "name": "Krish Bhardwaj",
+        "name": "Krish Kumar",
         "role": "Brother"
       }
     }

@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState, useMemo, useEffect, useRef } from "react";
-import { useAudio } from "@/context/AudioContext";
-import { SkipBack, SkipForward, Menu, Heart } from "lucide-react";
+import { Menu, Heart } from "lucide-react";
 import { useTranslation } from "@/context/LanguageContext";
+import { useAudio } from "@/context/AudioContext";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Navbar() {
-  const { isPlaying, currentTrack, togglePlay, nextTrack, prevTrack } = useAudio();
+  const { isPlaying } = useAudio();
   const { t, locale, setLocale } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -21,12 +21,12 @@ export default function Navbar() {
 
   const navLinks = useMemo(() => [
     { label: t("nav.welcome"), href: "#welcome" },
-    { label: t("nav.story"),   href: "#story"   },
-    { label: t("nav.couple"),  href: "#couple"  },
-    { label: t("nav.events"),  href: "#events"  },
-    { label: t("nav.venue"),   href: "#venue"   },
+    { label: t("nav.story"), href: "#story" },
+    { label: t("nav.couple"), href: "#couple" },
+    { label: t("nav.events"), href: "#events" },
+    { label: t("nav.venue"), href: "#venue" },
     { label: t("nav.gallery"), href: "#gallery" },
-    { label: t("nav.rsvp"),    href: "#rsvp"    },
+    { label: t("nav.rsvp"), href: "#rsvp" },
   ], [t]);
 
   const handleLinkClick = (href: string) => {
@@ -38,11 +38,10 @@ export default function Navbar() {
   return (
     <>
       <header
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${
-          scrolled
-            ? "py-2.5 bg-[#FFFDF8]/90 backdrop-blur-md shadow-md border-b border-[#D4AF37]/15"
-            : "py-4 bg-transparent"
-        }`}
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${scrolled
+          ? "py-2.5 bg-[#FFFDF8]/90 backdrop-blur-md shadow-md border-b border-[#D4AF37]/15"
+          : "py-4 bg-transparent"
+          }`}
       >
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex justify-between items-center h-14">
 
@@ -91,195 +90,77 @@ export default function Navbar() {
             {/* Language Toggle */}
             <div className="flex items-center gap-1 px-2.5 py-1.5 rounded-full border border-[#D4AF37]/30 bg-white/60 shadow-sm font-serif text-[9px] md:text-[10px] tracking-wider font-semibold">
               <button
-                onClick={() => setLocale("en")}
-                className={`transition-all duration-300 focus:outline-none cursor-pointer hover:text-[#D4AF37] ${
-                  locale === "en" ? "text-[#D4AF37] font-bold" : "text-[#5A4634]/60 font-light"
-                }`}
-              >EN</button>
+                onClick={() => setLocale("hi")}
+                className={`transition-all duration-300 focus:outline-none cursor-pointer hover:text-[#D4AF37] ${locale === "hi" ? "text-[#D4AF37] font-bold" : "text-[#5A4634]/60 font-light"
+                  }`}
+              >हिन्दी</button>
+
               <span className="text-[#D4AF37]/40 font-normal">|</span>
               <button
-                onClick={() => setLocale("hi")}
-                className={`transition-all duration-300 focus:outline-none cursor-pointer hover:text-[#D4AF37] ${
-                  locale === "hi" ? "text-[#D4AF37] font-bold" : "text-[#5A4634]/60 font-light"
-                }`}
-              >हिन्दी</button>
+                onClick={() => setLocale("en")}
+                className={`transition-all duration-300 focus:outline-none cursor-pointer hover:text-[#D4AF37] ${locale === "en" ? "text-[#D4AF37] font-bold" : "text-[#5A4634]/60 font-light"
+                  }`}
+              >EN</button>
             </div>
 
-            {/* ── Mini Music Player ── */}
-            <div style={{ display: "flex", alignItems: "center", gap: 4, position: "relative" }}>
-
-              {/* Prev track */}
-              <AnimatePresence>
-                {isPlaying && (
-                  <motion.button
-                    key="prev"
-                    initial={{ opacity: 0, scale: 0.6, x: 8 }}
-                    animate={{ opacity: 1, scale: 1, x: 0 }}
-                    exit={{ opacity: 0, scale: 0.6, x: 8 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                    onClick={prevTrack}
-                    aria-label="Previous track"
-                    style={{
-                      width: 28, height: 28, borderRadius: "50%",
-                      border: "1px solid rgba(212,175,55,0.28)",
-                      background: "rgba(255,255,255,0.65)",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      cursor: "pointer", outline: "none",
-                      color: "#C9912E", flexShrink: 0,
-                    }}
-                  >
-                    <SkipBack size={11} strokeWidth={2.5} />
-                  </motion.button>
-                )}
-              </AnimatePresence>
-
-              {/* Play / Pause button */}
-              <div style={{ position: "relative" }}>
-                {/* Ping rings when playing */}
-                <AnimatePresence>
-                  {isPlaying && (
-                    <>
-                      <motion.span
-                        key="ring1"
-                        initial={{ scale: 1, opacity: 0.5 }}
-                        animate={{ scale: 1.55, opacity: 0 }}
-                        transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
-                        style={{
-                          position: "absolute", inset: -3, borderRadius: "50%",
-                          border: "1px solid rgba(232,176,74,0.5)",
-                          pointerEvents: "none",
-                        }}
-                      />
-                      <motion.span
-                        key="ring2"
-                        initial={{ scale: 1, opacity: 0.3 }}
-                        animate={{ scale: 1.85, opacity: 0 }}
-                        transition={{ duration: 2.6, repeat: Infinity, ease: "easeOut", delay: 0.4 }}
-                        style={{
-                          position: "absolute", inset: -3, borderRadius: "50%",
-                          border: "1px solid rgba(212,175,55,0.25)",
-                          pointerEvents: "none",
-                        }}
-                      />
-                    </>
-                  )}
-                </AnimatePresence>
-
-                <button
-                  onClick={togglePlay}
-                  aria-label={isPlaying ? "Pause Music" : "Play Music"}
-                  style={{
-                    position: "relative",
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    width: 36, height: 36, borderRadius: "50%",
-                    border: `1.5px solid ${isPlaying ? "rgba(232,176,74,0.6)" : "rgba(212,175,55,0.3)"}`,
-                    background: isPlaying ? "rgba(232,176,74,0.12)" : "rgba(255,255,255,0.7)",
-                    boxShadow: isPlaying ? "0 0 12px rgba(212,175,55,0.25)" : "0 1px 4px rgba(0,0,0,0.06)",
-                    cursor: "pointer", outline: "none",
-                    transition: "all 0.3s ease", flexShrink: 0,
-                  }}
-                >
-                  {isPlaying ? (
-                    <div style={{ display: "flex", alignItems: "flex-end", gap: 2, height: 14, width: 14 }}>
-                      {[0, 1, 2].map((i) => (
-                        <span key={i} style={{
-                          width: 3, height: "100%", borderRadius: 2,
-                          background: "#C9912E", transformOrigin: "bottom",
-                          animation: "bounceWave 1.1s ease-in-out infinite",
-                          animationDelay: `${i * 0.16}s`, display: "block",
-                        }} />
-                      ))}
-                    </div>
-                  ) : (
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#C9912E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M9 18V5l12-2v13" />
-                      <circle cx="6" cy="18" r="3" />
-                      <circle cx="18" cy="16" r="3" />
-                    </svg>
-                  )}
-                </button>
-              </div>
-
-              {/* Next track */}
-              <AnimatePresence>
-                {isPlaying && (
-                  <motion.button
-                    key="next"
-                    initial={{ opacity: 0, scale: 0.6, x: -8 }}
-                    animate={{ opacity: 1, scale: 1, x: 0 }}
-                    exit={{ opacity: 0, scale: 0.6, x: -8 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 22 }}
-                    onClick={nextTrack}
-                    aria-label="Next track"
-                    style={{
-                      width: 28, height: 28, borderRadius: "50%",
-                      border: "1px solid rgba(212,175,55,0.28)",
-                      background: "rgba(255,255,255,0.65)",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                      cursor: "pointer", outline: "none",
-                      color: "#C9912E", flexShrink: 0,
-                    }}
-                  >
-                    <SkipForward size={11} strokeWidth={2.5} />
-                  </motion.button>
-                )}
-              </AnimatePresence>
-
-              {/* Now-playing pill — floats below the player */}
-              <AnimatePresence>
-                {isPlaying && (
-                  <motion.div
-                    key="nowplaying"
-                    initial={{ opacity: 0, y: -6, scale: 0.9 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -6, scale: 0.9 }}
-                    transition={{ type: "spring", stiffness: 260, damping: 22, delay: 0.15 }}
+            {/* Music Status Indicator (No controls, just visual status) */}
+            <div
+              style={{
+                position: "relative",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: 34,
+                height: 34,
+                borderRadius: "50%",
+                border: isPlaying ? "1.5px solid rgba(232,176,74,0.6)" : "1.5px solid rgba(212,175,55,0.2)",
+                background: isPlaying ? "rgba(232,176,74,0.08)" : "rgba(255,255,255,0.5)",
+                boxShadow: isPlaying ? "0 0 10px rgba(212,175,55,0.15)" : "none",
+                transition: "all 0.4s ease",
+                flexShrink: 0,
+              }}
+              title={isPlaying ? "Wedding music is playing" : "Music paused"}
+            >
+              {isPlaying && (
+                <>
+                  <motion.span
+                    initial={{ scale: 1, opacity: 0.4 }}
+                    animate={{ scale: 1.55, opacity: 0 }}
+                    transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
                     style={{
                       position: "absolute",
-                      top: "calc(100% + 10px)",
-                      left: "50%",
-                      transform: "translateX(-50%)",
-                      background: "rgba(255,253,249,0.97)",
-                      backdropFilter: "blur(12px)",
-                      WebkitBackdropFilter: "blur(12px)",
-                      border: "1px solid rgba(212,175,55,0.28)",
-                      borderRadius: "2rem",
-                      padding: "0.3rem 0.85rem",
-                      boxShadow: "0 6px 20px rgba(90,70,52,0.12)",
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      gap: "0.05rem",
-                      whiteSpace: "nowrap",
+                      inset: -2,
+                      borderRadius: "50%",
+                      border: "1px solid rgba(232,176,74,0.4)",
                       pointerEvents: "none",
-                      zIndex: 60,
                     }}
-                  >
-                    {/* Tiny music note + title */}
-                    <span style={{
-                      fontFamily: "var(--font-poppins), sans-serif",
-                      fontSize: "0.62rem",
-                      fontWeight: 700,
-                      color: "#3E2A1A",
-                      letterSpacing: "0.04em",
-                      display: "flex", alignItems: "center", gap: "0.3rem",
-                    }}>
-                      <span style={{ color: "#C9912E", fontSize: "0.7rem" }}>♫</span>
-                      {currentTrack.title}
-                    </span>
-                    <span style={{
-                      fontFamily: "var(--font-lora), serif",
-                      fontSize: "0.54rem",
-                      fontStyle: "italic",
-                      color: "rgba(90,70,52,0.6)",
-                      letterSpacing: "0.02em",
-                    }}>
-                      {currentTrack.artist}
-                    </span>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-
+                  />
+                  <div style={{ display: "flex", alignItems: "flex-end", gap: 2, height: 12, width: 12, position: "relative", zIndex: 2 }}>
+                    {[0, 1, 2].map((i) => (
+                      <span
+                        key={i}
+                        style={{
+                          width: 2,
+                          height: "100%",
+                          borderRadius: 1.5,
+                          background: "#C9912E",
+                          transformOrigin: "bottom",
+                          animation: "bounceWave 1.1s ease-in-out infinite",
+                          animationDelay: `${i * 0.16}s`,
+                          display: "block",
+                        }}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
+              {!isPlaying && (
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#C9912E" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ opacity: 0.65 }}>
+                  <path d="M9 18V5l12-2v13" />
+                  <circle cx="6" cy="18" r="3" />
+                  <circle cx="18" cy="16" r="3" />
+                </svg>
+              )}
             </div>
 
             {/* Hamburger (mobile/tablet only) — shows Menu icon always, no X */}
@@ -373,7 +254,7 @@ export default function Navbar() {
               className="text-center pt-5 border-t border-[#D4AF37]/12"
             >
               <p className="font-sans text-[8px] tracking-widest text-[#5A4634]/50 uppercase">
-                {t("couple.groom.name").split(" ")[0]} &amp; {t("couple.bride.name").split(" ")[0]}
+                {locale === "hi" ? "दीपक संग चांदनी" : "Deepak Weds Chandani"}
               </p>
               <p className="font-serif italic text-[10px] text-[#D4AF37] mt-1">
                 Palamu Jharkhand Wedding

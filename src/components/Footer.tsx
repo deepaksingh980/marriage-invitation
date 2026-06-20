@@ -82,7 +82,7 @@ function PetalShower({ active }: { active: boolean }) {
 }
 
 export default function Footer() {
-  const { t } = useTranslation();
+  const { t, locale } = useTranslation();
   const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
   const [showPetals, setShowPetals] = useState(false);
@@ -229,9 +229,11 @@ export default function Footer() {
             />
           ))}
 
-          <img
+          <motion.img
             src="/images/ganesha.png"
             alt="Lord Ganesha"
+            animate={{ y: [0, -8, 0], scale: [1, 1.04, 1] }}
+            transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
             style={{
               width: "clamp(140px,25vw,200px)",
               height: "clamp(140px,25vw,200px)",
@@ -394,8 +396,92 @@ export default function Footer() {
           textAlign: "center",
         }}
       >
-        {t("footer.made")} · Deepak & Chandani Wedding 2027
+        {t("footer.made")} · {locale === "hi" ? "दीपक संग चांदनी" : "Deepak Weds Chandani"} Wedding 2027
       </motion.p>
+
+      {/* Developer credit */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={visible ? { opacity: 1 } : {}}
+        transition={{ duration: 1, delay: 2.7 }}
+        style={{
+          position: "relative",
+          zIndex: 10,
+          textAlign: "center",
+          marginTop: "1.25rem",
+        }}
+      >
+        <div
+          style={{
+            width: 120,
+            height: 1,
+            background: "linear-gradient(to right,transparent,rgba(212,175,55,0.32),transparent)",
+            margin: "0 auto 0.75rem",
+          }}
+        />
+        <p
+          style={{
+            fontFamily: "var(--font-poppins),sans-serif",
+            fontSize: "0.62rem",
+            color: "rgba(246,238,223,0.45)",
+            letterSpacing: "0.14em",
+            margin: 0,
+            lineHeight: 1.7,
+          }}
+        >
+          {locale === "hi" ? "डिज़ाइन एवं डेवलपमेंट " : "Designed & Developed by "}
+          <a
+            href="https://deepak-portfolio-lilac.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              color: "#D4AF37",
+              textDecoration: "none",
+              transition: "color 0.3s ease",
+              cursor: "pointer",
+              letterSpacing: "0.14em",
+              fontWeight: 600,
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.color = "#D8A28C";
+              el.style.textDecorationLine = "underline";
+              el.style.textDecorationColor = "rgba(216,162,140,0.55)";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.color = "#D4AF37";
+              el.style.textDecorationLine = "none";
+            }}
+          >
+            {locale === "hi" ? "दीपक कुमार" : "Deepak Kumar"}
+          </a>
+          <span style={{ color: "rgba(212,175,55,0.4)", margin: "0 0.4em" }}>·</span>
+          <a
+            href="tel:9801558387"
+            style={{
+              color: "rgba(246,238,223,0.55)",
+              textDecoration: "none",
+              transition: "color 0.3s ease",
+              cursor: "pointer",
+              letterSpacing: "0.12em",
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.color = "#D8A28C";
+              el.style.textDecorationLine = "underline";
+              el.style.textDecorationColor = "rgba(216,162,140,0.55)";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.color = "rgba(246,238,223,0.55)";
+              el.style.textDecorationLine = "none";
+            }}
+          >
+            9801558387
+          </a>
+        </p>
+      </motion.div>
     </footer>
   );
 }

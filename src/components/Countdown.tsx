@@ -84,7 +84,7 @@ function CountBlock({
         <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-[#FAF7F2]/5 to-transparent pointer-events-none" />
 
         {/* Number with flip-like slide fade */}
-        <div className="overflow-hidden relative h-[1.2em] w-full flex items-center justify-center">
+        <div className="overflow-hidden relative h-[1.5em] w-full flex items-center justify-center">
           <AnimatePresence mode="popLayout">
             <motion.span
               key={value}
@@ -92,11 +92,11 @@ function CountBlock({
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: -20, opacity: 0 }}
               transition={{ type: "spring", stiffness: 160, damping: 13 }}
-              className="font-display text-[#FAF7F2] font-semibold text-center select-none"
+              className="font-display text-[#FAF7F2] font-semibold text-center select-none inline-block"
               style={{
                 fontSize: "clamp(1.5rem, 4.2vw, 2.7rem)",
                 textShadow: `0 0 12px ${color}65`,
-                lineHeight: 1,
+                lineHeight: 1.2,
               }}
             >
               {pad(value)}
