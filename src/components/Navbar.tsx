@@ -21,11 +21,11 @@ export default function Navbar() {
 
   const navLinks = useMemo(() => [
     { label: t("nav.welcome"), href: "#welcome" },
-    { label: t("nav.story"), href: "#story" },
     { label: t("nav.couple"), href: "#couple" },
     { label: t("nav.events"), href: "#events" },
-    { label: t("nav.venue"), href: "#venue" },
     { label: t("nav.gallery"), href: "#gallery" },
+    { label: t("nav.venue"), href: "#venue" },
+    { label: t("nav.story"), href: "#story" },
     { label: t("nav.rsvp"), href: "#rsvp" },
   ], [t]);
 

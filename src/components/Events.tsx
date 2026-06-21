@@ -303,7 +303,7 @@ export default function Events() {
           transition={{ duration: 0.8 }}
           className="font-sans text-[10px] md:text-xs font-bold tracking-[0.35em] text-[#D4AF37] uppercase mb-1.5"
         >
-          {isHi ? "पंचम अध्याय — मांगलिक बेला" : "Chapter V — Celebrations"}
+          {isHi ? "चतुर्थ अध्याय — मांगलिक बेला" : "Chapter IV — Celebrations"}
         </motion.p>
 
         <motion.h2

@@ -144,7 +144,7 @@ export default function Venue() {
             viewport={{ once: true }}
             className="font-sans text-[10px] md:text-xs font-bold tracking-[0.35em] text-[#6B0F1A] uppercase mb-1.5"
           >
-            {isHi ? "सप्तम अध्याय — उत्सव स्थल" : "Chapter VII — The Venues"}
+            {isHi ? "अष्टम अध्याय — उत्सव स्थल" : "Chapter VIII — The Venues"}
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: -10 }}

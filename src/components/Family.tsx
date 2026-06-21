@@ -326,7 +326,7 @@ function SectionHeader() {
           fontFamily: "var(--font-montserrat),'Montserrat',sans-serif",
           fontWeight: 700, fontSize: "0.56rem",
           letterSpacing: "0.55em", color: GOLD, textTransform: "uppercase",
-        }}>Chapter VIII</p>
+        }}>Chapter V</p>
         <motion.div initial={{ scaleX: 0 }} animate={inView ? { scaleX: 1 } : {}} transition={{ duration: 0.6, delay: 0.1 }}
           style={{ height: 1, width: 50, background: `linear-gradient(to left,transparent,${GOLD}70)`, transformOrigin: "left" }} />
       </motion.div>

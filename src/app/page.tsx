@@ -100,18 +100,18 @@ export default function Home() {
             <Welcome />
             {/* Chapter 3: The Couple */}
             <BrideGroom />
-            {/* Chapter 4: Their Story */}
-            <LoveStory />
-            {/* Chapter 5: Wedding Celebrations */}
+            {/* Chapter 4: Wedding Celebrations */}
             <Events />
+            {/* Chapter 5: Family Blessings */}
+            <Family />
             {/* Chapter 6: Countdown */}
             <Countdown />
-            {/* Chapter 7: Venue */}
-            <Venue />
-            {/* Chapter 8: Family Blessings */}
-            <Family />
-            {/* Chapter 9: Gallery */}
+            {/* Chapter 7: Gallery */}
             <Gallery />
+            {/* Chapter 8: Venue */}
+            <Venue />
+            {/* Chapter 9: Their Story */}
+            <LoveStory />
             {/* Guest Wishes */}
             <Wishes />
             {/* Chapter 10: RSVP */}

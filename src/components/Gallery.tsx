@@ -257,7 +257,7 @@ export default function Gallery() {
               fontWeight: 600,
             }}
           >
-            {locale === "hi" ? "अध्याय नवम — दीर्घा" : "Chapter IX — Gallery"}
+            {locale === "hi" ? "अध्याय सप्तम — दीर्घा" : "Chapter VII — Gallery"}
           </motion.p>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}

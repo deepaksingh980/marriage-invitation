@@ -6,21 +6,21 @@ import { Home, Heart, Calendar, Camera, Users, MapPin, Mail } from "lucide-react
 
 /* ── Nav Items ──────────────────────────────────── */
 const NAV_ITEMS = [
-  { id: "hero",    href: "#hero",    Icon: Home,     label: "Home"    },
-  { id: "couple",  href: "#couple",  Icon: Heart,    label: "Couple"  },
-  { id: "events",  href: "#events",  Icon: Calendar, label: "Events"  },
-  { id: "gallery", href: "#gallery", Icon: Camera,   label: "Gallery" },
-  { id: "family",  href: "#family",  Icon: Users,    label: "Family"  },
-  { id: "venue",   href: "#venue",   Icon: MapPin,   label: "Venue"   },
-  { id: "rsvp",    href: "#rsvp",    Icon: Mail,     label: "RSVP"    },
+  { id: "hero", href: "#hero", Icon: Home, label: "Home" },
+  { id: "couple", href: "#couple", Icon: Heart, label: "Couple" },
+  { id: "events", href: "#events", Icon: Calendar, label: "Events" },
+  { id: "family", href: "#family", Icon: Users, label: "Family" },
+  { id: "gallery", href: "#gallery", Icon: Camera, label: "Gallery" },
+  { id: "venue", href: "#venue", Icon: MapPin, label: "Venue" },
+  { id: "rsvp", href: "#rsvp", Icon: Mail, label: "RSVP" },
 ] as const;
 
 type SectionId = typeof NAV_ITEMS[number]["id"];
 
 /* ── Palette ────────────────────────────────────── */
-const GOLD    = "#D4AF37";
+const GOLD = "#D4AF37";
 const SAFFRON = "#E8B04A";
-const CREAM   = "#FDF5E8";
+const CREAM = "#FDF5E8";
 
 /* ── Ripple Effect ──────────────────────────────── */
 function Ripple({ x, y }: { x: number; y: number }) {
@@ -190,15 +190,15 @@ function NavButton({
             isActive && item.id === "couple"
               ? { scale: [1, 1.3, 1, 1.15, 1] }
               : isActive
-              ? { rotate: [0, -8, 8, 0] }
-              : { rotate: 0, scale: 1 }
+                ? { rotate: [0, -8, 8, 0] }
+                : { rotate: 0, scale: 1 }
           }
           transition={
             isActive && item.id === "couple"
               ? { duration: 0.9, repeat: Infinity, repeatDelay: 0.6 }
               : isActive
-              ? { duration: 0.5, delay: 0.1 }
-              : {}
+                ? { duration: 0.5, delay: 0.1 }
+                : {}
           }
         >
           <Icon
