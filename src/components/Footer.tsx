@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { useTranslation } from "../context/LanguageContext";
 const GOLD = "#D4AF37";
 const SAFFRON = "#E8B04A";
@@ -33,8 +34,9 @@ function generatePetals(n: number): Petal[] {
   }));
 }
 
-function PetalShower({ active }: { active: boolean }) {
+function PetalShower({ active, isMobile }: { active: boolean; isMobile: boolean }) {
   const [petals] = useState(() => generatePetals(40));
+  const displayedPetals = isMobile ? petals.slice(0, 10) : petals;
 
   return (
     <div
@@ -48,7 +50,7 @@ function PetalShower({ active }: { active: boolean }) {
     >
       <AnimatePresence>
         {active &&
-          petals.map((p) => (
+          displayedPetals.map((p) => (
             <motion.div
               key={p.id}
               initial={{ y: -20, x: `${p.x}vw`, opacity: 0, rotate: p.rotate }}
@@ -86,6 +88,13 @@ export default function Footer() {
   const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
   const [showPetals, setShowPetals] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsMobile(window.innerWidth < 768);
+    }
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -118,10 +127,10 @@ export default function Footer() {
       }}
     >
       {/* Flower shower */}
-      <PetalShower active={showPetals} />
+      <PetalShower active={showPetals} isMobile={isMobile} />
 
       {/* Stars */}
-      {Array.from({ length: 40 }).map((_, i) => (
+      {Array.from({ length: isMobile ? 10 : 40 }).map((_, i) => (
         <div
           key={i}
           className="star-twinkle"
@@ -229,20 +238,28 @@ export default function Footer() {
             />
           ))}
 
-          <motion.img
-            src="/images/ganesha.png"
-            alt="Lord Ganesha"
+          <motion.div
             animate={{ y: [0, -8, 0], scale: [1, 1.04, 1] }}
             transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
             style={{
               width: "clamp(140px,25vw,200px)",
               height: "clamp(140px,25vw,200px)",
-              objectFit: "contain",
-              filter: `drop-shadow(0 0 30px rgba(232,176,74,0.5)) drop-shadow(0 0 60px rgba(212,175,55,0.3))`,
               position: "relative",
+              margin: "0 auto",
+              filter: `drop-shadow(0 0 30px rgba(232,176,74,0.5)) drop-shadow(0 0 60px rgba(212,175,55,0.3))`,
               zIndex: 1,
             }}
-          />
+          >
+            <Image
+              src="/images/ganesha.png"
+              alt="Lord Ganesha"
+              fill
+              sizes="(max-width: 768px) 140px, 200px"
+              style={{
+                objectFit: "contain",
+              }}
+            />
+          </motion.div>
         </motion.div>
 
         {/* Sanskrit invocation */}

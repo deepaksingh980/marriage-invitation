@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion, useInView } from "framer-motion";
 import { useTranslation } from "../context/LanguageContext";
+import Image from "next/image";
 
 /* ── Palette ─────────────────────────────────────── */
 const GOLD = "#C9912E";
@@ -27,10 +28,20 @@ const brideFamily: Member[] = [
 
 /* ── Ambient Background Elements ─────────────────── */
 function BackgroundDecor() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsMobile(window.innerWidth < 768);
+    }
+  }, []);
+
+  const petalCount = isMobile ? 4 : 12;
+  const starCount = isMobile ? 8 : 24;
+
   return (
     <>
       {/* Floating petals */}
-      {Array.from({ length: 12 }).map((_, i) => {
+      {Array.from({ length: petalCount }).map((_, i) => {
         const symbols = ["❀", "✿", "❁", "✾", "⚘"];
         return (
           <div key={i} style={{
@@ -44,7 +55,7 @@ function BackgroundDecor() {
         );
       })}
       {/* Stars */}
-      {Array.from({ length: 24 }).map((_, i) => (
+      {Array.from({ length: starCount }).map((_, i) => (
         <div key={`s${i}`} className="star-twinkle" style={{
           position: "absolute",
           left: `${(i * 43 + 11) % 97}%`, top: `${(i * 61 + 7) % 95}%`,
@@ -138,13 +149,15 @@ function CirclePortrait({ member, idx }: { member: Member; idx: number }) {
             border: `3px solid ${hov ? member.accent : "rgba(255,255,255,0.8)"}`,
             transition: "border-color 0.3s, box-shadow 0.3s",
             background: "#f9f0e0",
+            position: "relative",
           }}
         >
-          <img
+          <Image
             src={member.src} alt={t(member.nameKey)}
+            fill
+            sizes="110px"
+            className="object-cover transition-transform duration-500"
             style={{
-              width: "100%", height: "100%", objectFit: "cover", display: "block",
-              transition: "transform 0.5s ease",
               transform: hov ? "scale(1.1)" : "scale(1)"
             }}
           />

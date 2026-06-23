@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-
+import Image from "next/image";
 interface LoadingScreenProps {
   onComplete: () => void;
 }
@@ -52,10 +52,13 @@ export default function LoadingScreen({ onComplete }: LoadingScreenProps) {
             className="w-[68px] h-[68px] flex items-center justify-center mb-[22px]"
             style={{ border: "1px solid rgba(212,175,55,0.3)", borderRadius: "50%" }}
           >
-            <img
+            <Image
               src="/assets/ganesha.webp"
               alt="Ganesha"
-              className="w-11 h-11 object-contain"
+              width={44}
+              height={44}
+              priority
+              className="object-contain"
               style={{ filter: "drop-shadow(0 0 8px rgba(212,175,55,0.7))" }}
             />
           </motion.div>

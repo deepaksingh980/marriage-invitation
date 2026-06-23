@@ -37,6 +37,13 @@ export default function RSVP() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsMobile(window.innerWidth < 768);
+    }
+  }, []);
 
   const set = (k: keyof FormState) => (v: string) =>
     setForm((f) => ({ ...f, [k]: v }));
@@ -99,7 +106,7 @@ export default function RSVP() {
       }}
     >
       {/* Decorative stars */}
-      {Array.from({ length: 20 }).map((_, i) => (
+      {Array.from({ length: isMobile ? 6 : 20 }).map((_, i) => (
         <div
           key={i}
           className="star-twinkle"

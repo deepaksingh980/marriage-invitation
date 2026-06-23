@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "../context/LanguageContext";
 import { Calendar, Clock, Sun, Music, Flame, RotateCw, ArrowLeft, Award, Paintbrush } from "lucide-react";
@@ -260,6 +260,14 @@ export default function Events() {
     },
   } as const;
 
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsMobile(window.innerWidth < 768);
+    }
+  }, []);
+  const starCount = isMobile ? 10 : 35;
+
   return (
     <section
       id="events"
@@ -273,7 +281,7 @@ export default function Events() {
       <div className="absolute bottom-10 right-10 w-56 h-56 rounded-full border border-[#D4AF37]/5 pointer-events-none select-none animate-spin-slow opacity-25" />
 
       {/* Background Twinkling Stars */}
-      {Array.from({ length: 35 }).map((_, i) => (
+      {Array.from({ length: starCount }).map((_, i) => (
         <div
           key={i}
           className="star-twinkle"

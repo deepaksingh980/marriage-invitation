@@ -125,6 +125,16 @@ export default function Countdown() {
     return () => clearInterval(id);
   }, []);
 
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsMobile(window.innerWidth < 768);
+    }
+  }, []);
+
+  const starCount = isMobile ? 10 : 45;
+  const emberCount = isMobile ? 6 : 18;
+
   return (
     <section
       id="countdown"
@@ -134,7 +144,7 @@ export default function Countdown() {
       }}
     >
       {/* Background Twinkling Stars */}
-      {Array.from({ length: 45 }).map((_, i) => (
+      {Array.from({ length: starCount }).map((_, i) => (
         <div
           key={i}
           className="star-twinkle"
@@ -153,7 +163,7 @@ export default function Countdown() {
       ))}
 
       {/* Floating Firefly Embers */}
-      {Array.from({ length: 18 }).map((_, i) => (
+      {Array.from({ length: emberCount }).map((_, i) => (
         <motion.div
           key={i}
           className="absolute rounded-full pointer-events-none select-none"
@@ -163,7 +173,7 @@ export default function Countdown() {
             width: i % 3 === 0 ? 3.5 : 2,
             height: i % 3 === 0 ? 3.5 : 2,
             background: i % 2 === 0 ? "#FFC83B" : "#FF6B35",
-            boxShadow: `0 0 8px ${i % 2 === 0 ? "#FFC83B" : "#FF6B35"}`,
+            boxShadow: isMobile ? "none" : `0 0 8px ${i % 2 === 0 ? "#FFC83B" : "#FF6B35"}`,
           }}
           animate={{
             y: [0, -650],

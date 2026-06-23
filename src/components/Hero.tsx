@@ -4,14 +4,23 @@ import React, { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "../context/LanguageContext";
 import { useAudio } from "@/context/AudioContext";
+import Image from "next/image";
 
 const GOLD = "#D4AF37";
 
 // Premium Rose Petals Rain falling in the background of the Hero section
 function RosePetals() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsMobile(window.innerWidth < 768);
+    }
+  }, []);
+  const count = isMobile ? 6 : 18;
+
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-[15]">
-      {Array.from({ length: 18 }).map((_, i) => {
+      {Array.from({ length: count }).map((_, i) => {
         const duration = 10 + (i % 5) * 2.5;
         const delay = 0.1 + (i * 0.7) % 8;
         const scale = 0.5 + (i % 3) * 0.25;
@@ -48,9 +57,17 @@ function RosePetals() {
 
 // Sparkles shooting out from the door seam during opening
 function OpeningParticles() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsMobile(window.innerWidth < 768);
+    }
+  }, []);
+  const count = isMobile ? 8 : 24;
+
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-35">
-      {Array.from({ length: 24 }).map((_, i) => {
+      {Array.from({ length: count }).map((_, i) => {
         const isLeft = i % 2 === 0;
         const delay = (i * 0.08) % 0.6;
         const dur = 2.2 + (i % 3) * 0.5;
@@ -91,9 +108,17 @@ function OpeningParticles() {
 
 // Extra rose petals flying out specifically from the opening door gap
 function OpeningPetals() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsMobile(window.innerWidth < 768);
+    }
+  }, []);
+  const count = isMobile ? 6 : 16;
+
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden z-35">
-      {Array.from({ length: 16 }).map((_, i) => {
+      {Array.from({ length: count }).map((_, i) => {
         const isLeft = i % 2 === 0;
         const delay = (i * 0.1) % 0.7;
         const dur = 2.5 + (i % 4) * 0.4;
@@ -546,20 +571,26 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
                   <span style={{ fontSize: 11, marginTop: -4 }}>🌸</span>
                 </motion.div>
               ))}
-              <motion.img
-                src="/assets/ganesha.webp"
-                alt="Lord Ganesha"
+              <motion.div
                 animate={{ y: [0, -6, 0], scale: [1, 1.03, 1] }}
                 transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut" }}
                 style={{
                   width: "clamp(80px, 20vw, 110px)",
                   height: "clamp(80px, 20vw, 110px)",
-                  objectFit: "contain",
                   position: "relative",
                   zIndex: 2,
-                  filter: "drop-shadow(0 0 20px rgba(212,175,55,0.75))",
                 }}
-              />
+              >
+                <Image
+                  src="/assets/ganesha.webp"
+                  alt="Lord Ganesha"
+                  fill
+                  priority
+                  sizes="110px"
+                  className="object-contain"
+                  style={{ filter: "drop-shadow(0 0 20px rgba(212,175,55,0.75))" }}
+                />
+              </motion.div>
             </div>
 
             {/* Mantra */}
@@ -829,9 +860,16 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
                   border: `3px solid ${GOLD}`,
                   overflow: "hidden",
                   boxShadow: "0 15px 35px rgba(90, 70, 52, 0.12)",
+                  position: "relative",
                 }}
               >
-                <img src="/images/groom.jpeg" alt="Groom" className="w-full h-full object-cover animate-pulse-glow" />
+                <Image
+                  src="/images/groom.jpeg"
+                  alt="Groom"
+                  fill
+                  sizes="280px"
+                  className="object-cover animate-pulse-glow"
+                />
               </div>
               <p className="text-center font-serif italic text-[11px] mt-3 text-[#5A4634] tracking-widest uppercase font-semibold">{t("couple.groom.role")}</p>
             </motion.div>
@@ -850,13 +888,20 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
               }
               transition={{ duration: 1.4, delay: 0.2, ease: "easeOut" }}
             >
-              <motion.img
+              <motion.div
                 animate={{ y: [0, -3, 0], scale: [1, 1.05, 1] }}
                 transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut" }}
-                src="/images/ganesha.png"
-                alt="Ganesha Icon"
-                className="w-10 h-10 md:w-12 md:h-12 object-contain mb-3 filter drop-shadow-[0_0_6px_rgba(212,175,55,0.4)]"
-              />
+                className="w-10 h-10 md:w-12 md:h-12 relative mb-3"
+              >
+                <Image
+                  src="/images/ganesha.png"
+                  alt="Ganesha Icon"
+                  fill
+                  sizes="48px"
+                  className="object-contain"
+                  style={{ filter: "drop-shadow(0 0 6px rgba(212,175,55,0.4))" }}
+                />
+              </motion.div>
             </motion.div>
 
             {/* Interlocking Hearts */}
@@ -982,9 +1027,15 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
                 <motion.div
                   animate={{ y: [0, -6, 0] }}
                   transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-                  className="w-28 h-40 rounded-2xl border-2 border-[#D4AF37] overflow-hidden shadow-lg"
+                  className="w-28 h-40 rounded-2xl border-2 border-[#D4AF37] overflow-hidden shadow-lg relative"
                 >
-                  <img src="/images/groom.jpeg" alt="Groom" className="w-full h-full object-cover" />
+                  <Image
+                    src="/images/groom.jpeg"
+                    alt="Groom"
+                    fill
+                    sizes="112px"
+                    className="object-cover"
+                  />
                 </motion.div>
                 <span className="text-[9px] text-[#5A4634]/85 font-serif font-bold uppercase mt-2.5 tracking-wider">{t("couple.groom.role")}</span>
               </motion.div>
@@ -1002,9 +1053,15 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
                 <motion.div
                   animate={{ y: [0, -6, 0] }}
                   transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                  className="w-28 h-40 rounded-2xl border-2 border-[#D4AF37] overflow-hidden shadow-lg"
+                  className="w-28 h-40 rounded-2xl border-2 border-[#D4AF37] overflow-hidden shadow-lg relative"
                 >
-                  <img src="/images/bride.jpeg" alt="Bride" className="w-full h-full object-cover" />
+                  <Image
+                    src="/images/bride.jpeg"
+                    alt="Bride"
+                    fill
+                    sizes="112px"
+                    className="object-cover"
+                  />
                 </motion.div>
                 <span className="text-[9px] text-[#5A4634]/85 font-serif font-bold uppercase mt-2.5 tracking-wider">{t("couple.bride.role")}</span>
               </motion.div>
@@ -1037,9 +1094,16 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
                   border: `3px solid ${GOLD}`,
                   overflow: "hidden",
                   boxShadow: "0 15px 35px rgba(90, 70, 52, 0.12)",
+                  position: "relative",
                 }}
               >
-                <img src="/images/bride.jpeg" alt="Bride" className="w-full h-full object-cover animate-pulse-glow" />
+                <Image
+                  src="/images/bride.jpeg"
+                  alt="Bride"
+                  fill
+                  sizes="280px"
+                  className="object-cover animate-pulse-glow"
+                />
               </div>
               <p className="text-center font-serif italic text-[11px] mt-3 text-[#5A4634] tracking-widest uppercase font-semibold">{t("couple.bride.role")}</p>
             </motion.div>

@@ -3,6 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "../context/LanguageContext";
+import Image from "next/image";
 
 const GOLD = "#D4AF37";
 
@@ -107,10 +108,12 @@ export default function Welcome() {
 
                 {/* Inner Image Frame */}
                 <div className="relative w-full aspect-[4/5] rounded-[22px] overflow-hidden border-2 border-[#D4AF37]/75 bg-gradient-to-b from-[#FAF6EF] to-[#EAE0D0]">
-                  <img
+                  <Image
                     src="/assets/palace.webp"
                     alt="Wedding Venue watercolor"
-                    className="w-full h-full object-cover mix-blend-multiply opacity-90 transition-transform duration-700 hover:scale-105"
+                    fill
+                    sizes="340px"
+                    className="object-cover mix-blend-multiply opacity-90 transition-transform duration-700 hover:scale-105"
                   />
                   {/* Elegant vignette overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#5A4634]/15 via-transparent to-transparent pointer-events-none" />

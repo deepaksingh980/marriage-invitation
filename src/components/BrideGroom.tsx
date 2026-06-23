@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "../context/LanguageContext";
+import Image from "next/image";
 
 const GOLD = "#D4AF37";
 
@@ -24,6 +25,13 @@ const LineageCrestIcon = () => (
 
 // Floating Gold Dust Particle System
 function GoldDustBackground() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsMobile(window.innerWidth < 768);
+    }
+  }, []);
+
   const [particles] = useState(() =>
     Array.from({ length: 25 }).map((_, i) => ({
       id: i,
@@ -36,9 +44,11 @@ function GoldDustBackground() {
     }))
   );
 
+  const visibleParticles = isMobile ? particles.slice(0, 8) : particles;
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none select-none z-0">
-      {particles.map((p) => (
+      {visibleParticles.map((p) => (
         <motion.div
           key={p.id}
           initial={{ y: "110%", x: `${p.x}%`, opacity: 0 }}
@@ -59,7 +69,7 @@ function GoldDustBackground() {
             height: p.size,
             borderRadius: "50%",
             background: "radial-gradient(circle, #F3D27F 0%, #D4AF37 70%, transparent 100%)",
-            boxShadow: "0 0 8px #D4AF37",
+            boxShadow: isMobile ? "none" : "0 0 8px #D4AF37",
           }}
         />
       ))}
@@ -257,14 +267,11 @@ function FloatingFrame({
           }}
         >
           {/* Image with depth parallax */}
-          <motion.img
-            src={src}
-            alt={alt}
+          <motion.div
             style={{
               width: "100%",
               height: "100%",
-              objectFit: "cover",
-              display: "block",
+              position: "relative",
             }}
             animate={{
               x: imgTranslateX,
@@ -272,7 +279,15 @@ function FloatingFrame({
               scale: isHovered ? 1.15 : 1.05,
             }}
             transition={{ type: "spring", stiffness: 140, damping: 18 }}
-          />
+          >
+            <Image
+              src={src}
+              alt={alt}
+              fill
+              sizes="(max-width: 768px) 200px, 310px"
+              className="object-cover"
+            />
+          </motion.div>
 
           {/* Dynamic Light Sheen overlay */}
           <div

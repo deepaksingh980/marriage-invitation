@@ -5,6 +5,8 @@ import { Menu, Heart } from "lucide-react";
 import { useTranslation } from "@/context/LanguageContext";
 import { useAudio } from "@/context/AudioContext";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
+
 
 export default function Navbar() {
   const { isPlaying } = useAudio();
@@ -56,10 +58,13 @@ export default function Navbar() {
               className="w-10 h-10 relative flex items-center justify-center filter drop-shadow-[0_0_8px_rgba(212,175,55,0.7)]"
             >
               <div className="absolute inset-0 rounded-full bg-[#E8B04A]/10 opacity-30 animate-pulse" />
-              <img
+              <Image
                 src="/assets/ganesha.webp"
                 alt="Ganesha Emblem"
-                className="w-8 h-8 object-contain relative z-10"
+                width={32}
+                height={32}
+                priority
+                className="object-contain relative z-10"
               />
             </motion.div>
             <span className="font-display tracking-[0.12em] text-[#D4AF37] text-sm md:text-base font-bold flex items-center gap-1 select-none">

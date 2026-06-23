@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Send } from "lucide-react";
 import { useTranslation } from "../context/LanguageContext";
@@ -305,6 +305,17 @@ export default function Wishes() {
     setTimeout(() => setIsSubmitted(false), 3500);
   };
 
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsMobile(window.innerWidth < 768);
+    }
+  }, []);
+
+  const starCount = isMobile ? 6 : 18;
+  const rawPetals = [9, 24, 39, 54, 68, 82];
+  const petals = isMobile ? rawPetals.slice(0, 3) : rawPetals;
+
   return (
     <section
       id="wishes"
@@ -314,7 +325,7 @@ export default function Wishes() {
       {/* ── Background layer ── */}
 
       {/* Twinkling star dots */}
-      {Array.from({ length: 18 }).map((_, i) => (
+      {Array.from({ length: starCount }).map((_, i) => (
         <div
           key={i}
           className="star-twinkle"
@@ -331,7 +342,7 @@ export default function Wishes() {
       ))}
 
       {/* Floating petals */}
-      {[9, 24, 39, 54, 68, 82].map((x, i) => (
+      {petals.map((x, i) => (
         <FloatingPetal key={i} x={x} delay={i * 2.2} duration={11 + i * 1.4} />
       ))}
 

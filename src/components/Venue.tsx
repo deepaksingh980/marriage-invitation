@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useTranslation } from "../context/LanguageContext";
 import { MapPin, Navigation, Compass } from "lucide-react";
@@ -101,6 +101,15 @@ export default function Venue() {
     }
   ];
 
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsMobile(window.innerWidth < 768);
+    }
+  }, []);
+
+  const starCount = isMobile ? 8 : 30;
+
   return (
     <section
       id="venue"
@@ -114,7 +123,7 @@ export default function Venue() {
       <div className="absolute bottom-12 right-12 w-56 h-56 rounded-full border border-[#D4AF37]/5 pointer-events-none select-none animate-spin-slow opacity-25" />
 
       {/* Background Twinkling Stars */}
-      {Array.from({ length: 30 }).map((_, i) => (
+      {Array.from({ length: starCount }).map((_, i) => (
         <div
           key={i}
           className="star-twinkle"

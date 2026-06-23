@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "../context/LanguageContext";
 
@@ -13,6 +13,13 @@ const milestoneColors = [SAFFRON, ROSE, GOLD];
 const PREVIEW_WORDS = 22;
 
 function GoldDustBackground() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsMobile(window.innerWidth < 768);
+    }
+  }, []);
+
   const [particles] = useState(() =>
     Array.from({ length: 18 }).map((_, i) => ({
       id: i,
@@ -24,9 +31,11 @@ function GoldDustBackground() {
     }))
   );
 
+  const visibleParticles = isMobile ? particles.slice(0, 6) : particles;
+
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none select-none z-0">
-      {particles.map((p) => (
+      {visibleParticles.map((p) => (
         <motion.div
           key={p.id}
           initial={{ y: "110%", x: `${p.x}%`, opacity: 0 }}
@@ -42,7 +51,7 @@ function GoldDustBackground() {
             height: p.size,
             borderRadius: "50%",
             background: "radial-gradient(circle, #F3D27F 0%, #D4AF37 70%, transparent 100%)",
-            boxShadow: "0 0 6px #D4AF37",
+            boxShadow: isMobile ? "none" : "0 0 6px #D4AF37",
           }}
         />
       ))}
@@ -313,6 +322,15 @@ export default function LoveStory() {
     { key: "m3", chapter: "Chapter III", align: "left"  as const, icon: milestoneIcons[2], color: milestoneColors[2] },
   ];
 
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsMobile(window.innerWidth < 768);
+    }
+  }, []);
+
+  const starCount = isMobile ? 6 : 18;
+
   return (
     <section
       id="story"
@@ -320,7 +338,7 @@ export default function LoveStory() {
       style={{ background: "radial-gradient(ellipse at 50% 30%, #FFFDF8 0%, #FAF6EF 55%, #F5ECE0 100%)" }}
     >
       {/* Twinkling stars */}
-      {Array.from({ length: 18 }).map((_, i) => (
+      {Array.from({ length: starCount }).map((_, i) => (
         <div
           key={i}
           className="star-twinkle"

@@ -1,21 +1,26 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import LoadingScreen from "@/components/LoadingScreen";
 import Navbar from "@/components/Navbar";
 import MobileNav from "@/components/MobileNav";
 import Hero from "@/components/Hero";
-import Welcome from "@/components/Welcome";
-import BrideGroom from "@/components/BrideGroom";
-import LoveStory from "@/components/LoveStory";
-import Events from "@/components/Events";
-import Countdown from "@/components/Countdown";
-import Venue from "@/components/Venue";
-import Family from "@/components/Family";
-import Gallery from "@/components/Gallery";
-import Wishes from "@/components/Wishes";
-import RSVP from "@/components/RSVP";
-import Footer from "@/components/Footer";
+import LazySection from "@/components/LazySection";
+
+// Dynamically import below-the-fold components to reduce initial bundle size and split chunks
+const Welcome = dynamic(() => import("@/components/Welcome"), { ssr: false });
+const BrideGroom = dynamic(() => import("@/components/BrideGroom"), { ssr: false });
+const LoveStory = dynamic(() => import("@/components/LoveStory"), { ssr: false });
+const Events = dynamic(() => import("@/components/Events"), { ssr: false });
+const Countdown = dynamic(() => import("@/components/Countdown"), { ssr: false });
+const Venue = dynamic(() => import("@/components/Venue"), { ssr: false });
+const Family = dynamic(() => import("@/components/Family"), { ssr: false });
+const Gallery = dynamic(() => import("@/components/Gallery"), { ssr: false });
+const Wishes = dynamic(() => import("@/components/Wishes"), { ssr: false });
+const RSVP = dynamic(() => import("@/components/RSVP"), { ssr: false });
+const Footer = dynamic(() => import("@/components/Footer"), { ssr: false });
+
 import { motion, AnimatePresence } from "framer-motion";
 import { useLenis } from "lenis/react";
 
@@ -96,28 +101,63 @@ export default function Home() {
           <main>
             {/* Chapter 1 + 2: Divine Ganesha + Royal Gates */}
             <Hero onDoorsOpen={handleDoorsOpen} />
+            
+            {/* Below-the-fold content wrapped in LazySection placeholders */}
+            
             {/* Chapter Bridge */}
-            <Welcome />
+            <LazySection height="600px">
+              <Welcome />
+            </LazySection>
+            
             {/* Chapter 3: The Couple */}
-            <BrideGroom />
+            <LazySection height="900px">
+              <BrideGroom />
+            </LazySection>
+            
             {/* Chapter 4: Wedding Celebrations */}
-            <Events />
+            <LazySection height="900px">
+              <Events />
+            </LazySection>
+            
             {/* Chapter 5: Family Blessings */}
-            <Family />
+            <LazySection height="900px">
+              <Family />
+            </LazySection>
+            
             {/* Chapter 6: Countdown */}
-            <Countdown />
+            <LazySection height="600px">
+              <Countdown />
+            </LazySection>
+            
             {/* Chapter 7: Gallery */}
-            <Gallery />
+            <LazySection height="800px">
+              <Gallery />
+            </LazySection>
+            
             {/* Chapter 8: Venue */}
-            <Venue />
+            <LazySection height="700px">
+              <Venue />
+            </LazySection>
+            
             {/* Chapter 9: Their Story */}
-            <LoveStory />
+            <LazySection height="1000px">
+              <LoveStory />
+            </LazySection>
+            
             {/* Guest Wishes */}
-            <Wishes />
+            <LazySection height="900px">
+              <Wishes />
+            </LazySection>
+            
             {/* Chapter 10: RSVP */}
-            <RSVP />
+            <LazySection height="800px">
+              <RSVP />
+            </LazySection>
+            
             {/* Chapter 11: Final Blessings */}
-            <Footer />
+            <LazySection height="800px">
+              <Footer />
+            </LazySection>
           </main>
 
           {/* Mobile bottom nav — fades in after doors open */}
@@ -139,3 +179,4 @@ export default function Home() {
     </>
   );
 }
+

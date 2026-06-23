@@ -4,6 +4,7 @@ import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
 import { useTranslation } from "../context/LanguageContext";
+import Image from "next/image";
 
 const GOLD = "#D4AF37";
 
@@ -82,9 +83,17 @@ function getDiff(idx: number, active: number, total: number) {
 }
 
 function RosePetals() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setIsMobile(window.innerWidth < 768);
+    }
+  }, []);
+  const count = isMobile ? 6 : 18;
+
   return (
     <div className="absolute inset-0 pointer-events-none overflow-hidden select-none z-1">
-      {Array.from({ length: 18 }).map((_, i) => {
+      {Array.from({ length: count }).map((_, i) => {
         const duration = 10 + (i % 5) * 2.5;
         const delay = (i * 0.7) % 8;
         const scale = 0.5 + (i % 3) * 0.25;
@@ -206,7 +215,7 @@ export default function Gallery() {
       }}
     >
       {/* Background Sparkles & Twinkle stars */}
-      {Array.from({ length: 22 }).map((_, i) => (
+      {Array.from({ length: isMobile ? 8 : 22 }).map((_, i) => (
         <div
           key={i}
           className="star-twinkle"
@@ -236,7 +245,15 @@ export default function Gallery() {
           viewport={{ once: true }}
           className="flex flex-col items-center justify-center mb-0 pointer-events-none select-none flex-shrink-0"
         >
-          <img src="/assets/ganesha.webp" alt="Ganesha" className="w-8 h-8 md:w-12 md:h-12 object-contain animate-float" />
+          <div className="relative w-8 h-8 md:w-12 md:h-12 flex items-center justify-center animate-float">
+            <Image
+              src="/assets/ganesha.webp"
+              alt="Ganesha"
+              fill
+              sizes="(max-width: 768px) 32px, 48px"
+              className="object-contain"
+            />
+          </div>
           <p className="font-serif text-[#D4AF37] text-[9px] md:text-[10px] tracking-widest mt-1 font-bold hidden md:block">॥ श्री गणेशाय नमः ॥</p>
         </motion.div>
 
@@ -432,10 +449,12 @@ export default function Gallery() {
                         transform: "translateZ(25px)",
                       }}
                     >
-                      <img
+                      <Image
                         src={photo.src}
                         alt={photo.alt}
-                        className="w-full h-full object-cover pointer-events-none"
+                        fill
+                        sizes="(max-width: 640px) 185px, 245px"
+                        className="object-cover pointer-events-none"
                       />
 
                       {/* Dark overlay showing title in coverflow card */}
@@ -538,12 +557,19 @@ export default function Gallery() {
                 exit={{ scale: 0.92, opacity: 0 }}
                 transition={{ type: "spring", stiffness: 220, damping: 24 }}
                 onClick={(e) => e.stopPropagation()}
-                className="relative max-h-full max-w-full rounded-2xl overflow-hidden border-2 border-[#D4AF37]/50 shadow-2xl bg-black cursor-grab active:cursor-grabbing select-none"
+                className="relative rounded-2xl overflow-hidden border-2 border-[#D4AF37]/50 shadow-2xl bg-black cursor-grab active:cursor-grabbing select-none"
+                style={{
+                  height: isMobile ? "50vh" : "60vh",
+                  aspectRatio: "3/4",
+                  position: "relative",
+                }}
               >
-                <img
+                <Image
                   src={photos[lightboxIndex].src}
                   alt={photos[lightboxIndex].alt}
-                  className="max-h-[60vh] md:max-h-[65vh] max-w-full object-contain block pointer-events-none"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 80vw"
+                  className="object-contain pointer-events-none"
                 />
               </motion.div>
 
@@ -581,7 +607,13 @@ export default function Gallery() {
                         : "opacity-40 border border-white/10"
                       }`}
                   >
-                    <img src={photo.src} alt={photo.alt} className="w-full h-full object-cover pointer-events-none" />
+                    <Image
+                      src={photo.src}
+                      alt={photo.alt}
+                      fill
+                      sizes="44px"
+                      className="object-cover pointer-events-none"
+                    />
                   </motion.div>
                 );
               })}
