@@ -66,7 +66,7 @@ export const metadata: Metadata = {
   },
 
   description:
-    "With the blessings of our families, we warmly invite you to celebrate our wedding and be a part of our most cherished moments. Wedding Ceremony — February 10, 2027, Palamu, Jharkhand.",
+    "You and your family are cordially invited to celebrate our wedding and bless us on our special day.",
 
   keywords: [
     "Deepak Chandani Wedding",
@@ -116,18 +116,18 @@ export const metadata: Metadata = {
   },
 
   openGraph: {
-    title: "💍 Deepak ❤️ Chandani | Wedding Invitation",
+    title: "Deepak ❤️ Chandani | Wedding Invitation",
     description:
-      "With the blessings of our families, we warmly invite you to celebrate our wedding and be a part of our most cherished moments.",
+      "You and your family are cordially invited to celebrate our wedding and bless us on our special day.",
     url: siteUrl,
     siteName: "Deepak & Chandani Wedding",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Deepak ❤️ Chandani — Wedding Invitation, February 10, 2027, Palamu, Jharkhand",
-        type: "image/png",
+        alt: "Deepak ❤️ Chandani Wedding Invitation",
+        type: "image/jpeg",
       },
     ],
     locale: "en_IN",
@@ -136,10 +136,10 @@ export const metadata: Metadata = {
 
   twitter: {
     card: "summary_large_image",
-    title: "💍 Deepak ❤️ Chandani | Wedding Invitation",
+    title: "Deepak ❤️ Chandani | Wedding Invitation",
     description:
-      "With the blessings of our families, we warmly invite you to celebrate our wedding and be a part of our most cherished moments.",
-    images: ["/og-image.png"],
+      "You and your family are cordially invited to celebrate our wedding and bless us on our special day.",
+    images: ["/og-image.jpg"],
     creator: "@deepak_chandani",
   },
 
