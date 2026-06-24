@@ -112,7 +112,7 @@ interface AudioContextType {
   currentTrack: Track;
   trackIndex: number;
   togglePlay: () => void;
-  playAudio: () => void;
+  playAudio: (customVolume?: number) => void;
   nextTrack: () => void;
   prevTrack: () => void;
 }
@@ -147,18 +147,20 @@ export const AudioProvider = ({ children }: { children: React.ReactNode }) => {
     retryTimerRef.current = null;
   }, []);
 
-  const fadeIn = useCallback((audio: HTMLAudioElement) => {
+  const fadeIn = useCallback((audio: HTMLAudioElement, targetVol = TARGET_VOLUME) => {
     clearTimers();
-    audio.volume = 0;
+    audio.volume = Math.max(0, Math.min(audio.volume, targetVol));
     fadeTimerRef.current = setInterval(() => {
       if (!audioRef.current || audioRef.current !== audio) {
         clearInterval(fadeTimerRef.current!);
         return;
       }
-      if (audio.volume < TARGET_VOLUME - 0.018) {
-        audio.volume = Math.min(TARGET_VOLUME, audio.volume + 0.018);
+      if (audio.volume < targetVol - 0.018) {
+        audio.volume = Math.min(targetVol, audio.volume + 0.018);
+      } else if (audio.volume > targetVol + 0.018) {
+        audio.volume = Math.max(targetVol, audio.volume - 0.018);
       } else {
-        audio.volume = TARGET_VOLUME;
+        audio.volume = targetVol;
         clearInterval(fadeTimerRef.current!);
       }
     }, 80);
@@ -312,10 +314,11 @@ export const AudioProvider = ({ children }: { children: React.ReactNode }) => {
   /* ── public API ───────────────────────────────────────────────────────────── */
 
   /** Called by Hero.tsx handleEnter — guaranteed user-gesture context. */
-  const playAudio = useCallback(() => {
-    console.log("Wedding Music: playAudio() called on user interaction (Enter click).");
+  const playAudio = useCallback((customVolume?: number) => {
+    console.log("Wedding Music: playAudio() called.");
     wantPlayRef.current = true;
     const audio = audioRef.current;
+    const targetVol = customVolume !== undefined ? customVolume : TARGET_VOLUME;
 
     if (!audio) {
       console.warn("Wedding Music: No audio element available in playAudio().");
@@ -330,16 +333,16 @@ export const AudioProvider = ({ children }: { children: React.ReactNode }) => {
     }
 
     if (!audio.paused) {
-      console.log("Wedding Music: Audio already playing, ensuring target volume...");
-      if (audio.volume < TARGET_VOLUME) fadeIn(audio);
+      console.log("Wedding Music: Audio already playing, fading to target volume:", targetVol);
+      fadeIn(audio, targetVol);
       setIsPlaying(true);
       return;
     }
 
-    console.log("Wedding Music: Starting audio playback...");
+    console.log("Wedding Music: Starting audio playback at volume:", targetVol);
     audio.play()
       .then(() => {
-        fadeIn(audio);
+        fadeIn(audio, targetVol);
         setIsPlaying(true);
         console.log("Wedding Music: Playback started successfully.");
       })

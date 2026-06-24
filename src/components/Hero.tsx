@@ -1,10 +1,13 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "../context/LanguageContext";
 import { useAudio } from "@/context/AudioContext";
 import Image from "next/image";
+import confetti from "canvas-confetti";
+import ShehnaiPlayers from "./ShehnaiPlayers";
+
 
 const GOLD = "#D4AF37";
 
@@ -323,7 +326,187 @@ const DoorCarvings = ({ side, glowing }: { side: "left" | "right"; glowing: bool
   );
 };
 
-type DoorState = "blessing" | "pre-opening" | "opening" | "open";
+export type DoorState =
+  | "blessing"
+  | "gate-closed"
+  | "players-entering"
+  | "playing-shehnai"
+  | "gate-opening"
+  | "celebration-blast"
+  | "players-exiting"
+  | "website-ready";
+
+// Duration configurations in ms
+const CLOSED_GATE_DURATION = 1500;
+const ENTRANCE_DURATION = 2200;
+const PLAYING_AHEAD_DURATION = 2500;
+const GATE_OPENING_DURATION = 3000;
+const BLAST_DURATION = 1500;
+const EXITING_DURATION = 2500;
+
+// Web Audio API Synthesis for realistic temple bell chimes
+function playTempleBell() {
+  if (typeof window === "undefined") return;
+  try {
+    const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+    const ctx = new AudioContextClass();
+    const now = ctx.currentTime;
+
+    // We want a rich bell chime sound. Bells have multiple inharmonic partials,
+    // but a few key frequencies will make it sound like a temple bell.
+    const frequencies = [440, 554.37, 659.25, 880, 1200, 1600];
+    const gains = [0.4, 0.25, 0.2, 0.15, 0.1, 0.05];
+
+    const masterGain = ctx.createGain();
+    masterGain.gain.setValueAtTime(0, now);
+    masterGain.gain.linearRampToValueAtTime(0.35, now + 0.02);
+    // Slow decay over 4.5 seconds
+    masterGain.gain.exponentialRampToValueAtTime(0.0001, now + 4.5);
+    masterGain.connect(ctx.destination);
+
+    frequencies.forEach((freq, idx) => {
+      const osc = ctx.createOscillator();
+      const oscGain = ctx.createGain();
+
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(freq, now);
+      osc.detune.setValueAtTime(idx * 4 - 8, now);
+
+      oscGain.gain.setValueAtTime(gains[idx], now);
+      oscGain.gain.exponentialRampToValueAtTime(0.0001, now + (3.0 - idx * 0.4));
+
+      osc.connect(oscGain);
+      oscGain.connect(masterGain);
+
+      osc.start(now);
+      osc.stop(now + 4.5);
+    });
+
+    // Second overlapping high-pitch bell ring 0.6 seconds later
+    setTimeout(() => {
+      const now2 = ctx.currentTime;
+      const frequencies2 = [554.37, 698.46, 830.61, 1108.73, 1500];
+      const gains2 = [0.3, 0.2, 0.15, 0.1, 0.05];
+
+      const masterGain2 = ctx.createGain();
+      masterGain2.gain.setValueAtTime(0, now2);
+      masterGain2.gain.linearRampToValueAtTime(0.25, now2 + 0.02);
+      masterGain2.gain.exponentialRampToValueAtTime(0.0001, now2 + 3.5);
+      masterGain2.connect(ctx.destination);
+
+      frequencies2.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const oscGain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(freq, now2);
+        oscGain.gain.setValueAtTime(gains2[idx], now2);
+        oscGain.gain.exponentialRampToValueAtTime(0.0001, now2 + (2.5 - idx * 0.3));
+
+        osc.connect(oscGain);
+        oscGain.connect(masterGain2);
+        osc.start(now2);
+        osc.stop(now2 + 3.5);
+      });
+    }, 600);
+
+  } catch (err) {
+    console.error("Failed to play temple bells:", err);
+  }
+}
+
+// Celebration confetti blast using canvas-confetti
+function triggerCelebrationBlast() {
+  // Center burst
+  confetti({
+    particleCount: 130,
+    spread: 85,
+    origin: { x: 0.5, y: 0.4 },
+    colors: ["#D4AF37", "#6B0F1A", "#FFDF8A", "#FFA0A0", "#D62246"],
+  });
+
+  // Left burst
+  confetti({
+    particleCount: 65,
+    angle: 60,
+    spread: 60,
+    origin: { x: 0.2, y: 0.6 },
+    colors: ["#D4AF37", "#6B0F1A", "#FFDF8A", "#FFA0A0", "#D62246"],
+  });
+
+  // Right burst
+  confetti({
+    particleCount: 65,
+    angle: 120,
+    spread: 60,
+    origin: { x: 0.8, y: 0.6 },
+    colors: ["#D4AF37", "#6B0F1A", "#FFDF8A", "#FFA0A0", "#D62246"],
+  });
+
+  // Extra lingering sparkles
+  const end = Date.now() + 1.5 * 1000;
+  const interval = setInterval(() => {
+    if (Date.now() > end) {
+      clearInterval(interval);
+      return;
+    }
+    confetti({
+      particleCount: 12,
+      angle: 90,
+      spread: 360,
+      startVelocity: 28,
+      origin: { x: 0.5, y: 0.4 },
+      colors: ["#D4AF37", "#FFDF8A"],
+    });
+  }, 120);
+}
+
+// Moving radial fog component
+function LightFog() {
+  return (
+    <div className="absolute inset-x-0 bottom-0 h-[45vh] pointer-events-none select-none z-[16] overflow-hidden opacity-45">
+      <motion.div
+        animate={{
+          x: ["-25%", "25%", "-25%"],
+          y: [0, 6, 0],
+        }}
+        transition={{
+          duration: 22,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        style={{
+          position: "absolute",
+          bottom: "-5%",
+          left: "-30%",
+          right: "-30%",
+          height: "100%",
+          background: "radial-gradient(ellipse at center bottom, rgba(255, 253, 248, 0.48) 0%, rgba(212, 175, 55, 0.12) 45%, transparent 75%)",
+          filter: "blur(24px)",
+        }}
+      />
+      <motion.div
+        animate={{
+          x: ["15%", "-15%", "15%"],
+          y: [0, -7, 0],
+        }}
+        transition={{
+          duration: 18,
+          repeat: Infinity,
+          ease: "easeInOut",
+        }}
+        style={{
+          position: "absolute",
+          bottom: "-10%",
+          left: "-25%",
+          right: "-25%",
+          height: "85%",
+          background: "radial-gradient(ellipse at center bottom, rgba(255, 253, 248, 0.38) 0%, rgba(122, 33, 71, 0.05) 50%, transparent 80%)",
+          filter: "blur(30px)",
+        }}
+      />
+    </div>
+  );
+}
 
 interface HeroProps {
   onDoorsOpen?: () => void;
@@ -334,21 +517,54 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
   const { playAudio } = useAudio();
   const [doorState, setDoorState] = useState<DoorState>("blessing");
 
+  const isDoorsOpenState =
+    doorState === "players-exiting" ||
+    doorState === "website-ready";
+
   const handleEnter = useCallback(() => {
     if (doorState !== "blessing") return;
-    playAudio();
-    setDoorState("pre-opening");
+    playAudio(0.08); // soft background music starts
+    setDoorState("gate-closed");
+  }, [doorState, playAudio]);
 
-    // Vibrate and leak light for 1.5 seconds, then open slowly
-    setTimeout(() => {
-      setDoorState("opening");
-    }, 1500);
+  // Orchestrate sequential transitions based on doorState
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
 
-    // After majestic slow opening (3.0s), mark as fully open and reveal nav
-    setTimeout(() => {
-      setDoorState("open");
-      onDoorsOpen?.();
-    }, 4500);
+    if (doorState === "gate-closed") {
+      timer = setTimeout(() => {
+        setDoorState("players-entering");
+      }, CLOSED_GATE_DURATION);
+    } else if (doorState === "players-entering") {
+      timer = setTimeout(() => {
+        setDoorState("playing-shehnai");
+      }, ENTRANCE_DURATION);
+    } else if (doorState === "playing-shehnai") {
+      playAudio(0.22); // ramp up to elegant shehnai level
+      timer = setTimeout(() => {
+        setDoorState("gate-opening");
+      }, PLAYING_AHEAD_DURATION);
+    } else if (doorState === "gate-opening") {
+      playTempleBell();
+      timer = setTimeout(() => {
+        setDoorState("celebration-blast");
+      }, GATE_OPENING_DURATION);
+    } else if (doorState === "celebration-blast") {
+      triggerCelebrationBlast();
+      playAudio(0.38); // normal full volume
+      timer = setTimeout(() => {
+        setDoorState("players-exiting");
+      }, BLAST_DURATION);
+    } else if (doorState === "players-exiting") {
+      timer = setTimeout(() => {
+        setDoorState("website-ready");
+        onDoorsOpen?.(); // unlocks scrolling and enables site controls
+      }, EXITING_DURATION);
+    }
+
+    return () => {
+      if (timer) clearTimeout(timer);
+    };
   }, [doorState, playAudio, onDoorsOpen]);
 
   return (
@@ -364,6 +580,23 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
     >
       {/* Background Rose Petals */}
       <RosePetals />
+
+      {/* Light Fog */}
+      {(doorState === "gate-closed" ||
+        doorState === "players-entering" ||
+        doorState === "playing-shehnai") && <LightFog />}
+
+      {/* Soft Golden Spotlight Overlay */}
+      {(doorState === "gate-closed" ||
+        doorState === "players-entering" ||
+        doorState === "playing-shehnai") && (
+          <div
+            className="absolute inset-0 pointer-events-none z-31"
+            style={{
+              background: "radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.16) 0%, transparent 70%)",
+            }}
+          />
+        )}
 
       {/* 3D PALACE DOORS OVERLAY */}
       <div
@@ -386,23 +619,20 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
             filter: "drop-shadow(-6px 12px 28px rgba(60,10,30,0.65))",
           }}
           animate={
-            doorState === "pre-opening"
+            doorState === "gate-opening" ||
+              doorState === "celebration-blast" ||
+              doorState === "players-exiting" ||
+              doorState === "website-ready"
               ? {
-                x: [0, -2, 1.5, -1, 1, -1.5, 0],
+                rotateY: -95,
+              }
+              : {
                 rotateY: 0,
               }
-              : doorState === "opening" || doorState === "open"
-                ? {
-                  rotateY: -95,
-                }
-                : {
-                  rotateY: 0,
-                }
           }
           transition={{
-            duration: doorState === "pre-opening" ? 0.35 : 3.0,
+            duration: 3.0,
             ease: "easeInOut",
-            repeat: doorState === "pre-opening" ? Infinity : 0,
           }}
         >
           {/* Ornate Gold Carvings */}
@@ -440,23 +670,20 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
             filter: "drop-shadow(6px 12px 28px rgba(60,10,30,0.65))",
           }}
           animate={
-            doorState === "pre-opening"
+            doorState === "gate-opening" ||
+              doorState === "celebration-blast" ||
+              doorState === "players-exiting" ||
+              doorState === "website-ready"
               ? {
-                x: [0, 2, -1.5, 1, -1, 1.5, 0],
+                rotateY: 95,
+              }
+              : {
                 rotateY: 0,
               }
-              : doorState === "opening" || doorState === "open"
-                ? {
-                  rotateY: 95,
-                }
-                : {
-                  rotateY: 0,
-                }
           }
           transition={{
-            duration: doorState === "pre-opening" ? 0.35 : 3.0,
+            duration: 3.0,
             ease: "easeInOut",
-            repeat: doorState === "pre-opening" ? Infinity : 0,
           }}
         >
           {/* Ornate Gold Carvings */}
@@ -479,8 +706,23 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
         </motion.div>
       </div>
 
+      {/* SHEHNAI MUSICIANS OVERLAY */}
+      <ShehnaiPlayers
+        state={
+          doorState === "players-entering"
+            ? "entering"
+            : doorState === "playing-shehnai" ||
+              doorState === "gate-opening" ||
+              doorState === "celebration-blast"
+              ? "playing"
+              : doorState === "players-exiting"
+                ? "exiting"
+                : "hidden"
+        }
+      />
+
       {/* PRE-OPENING LIGHT LEAK CRACK — maroon-gold glow from center seam */}
-      {doorState === "pre-opening" && (
+      {doorState === "playing-shehnai" && (
         <motion.div
           initial={{ opacity: 0, scaleX: 0.1 }}
           animate={{ opacity: [0.4, 1, 0.55, 1], scaleX: [0.1, 1.6, 0.8, 1.2] }}
@@ -494,7 +736,7 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
       )}
 
       {/* VOLUMETRIC LIGHT RAYS */}
-      {doorState === "opening" && (
+      {(doorState === "gate-opening" || doorState === "celebration-blast") && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden z-25">
           <motion.div
             initial={{ opacity: 0, scale: 0.4 }}
@@ -527,7 +769,7 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
       )}
 
       {/* FLYING PETALS & SPARKLES FROM GAP */}
-      {doorState === "opening" && (
+      {(doorState === "gate-opening" || doorState === "celebration-blast") && (
         <>
           <OpeningParticles />
           <OpeningPetals />
@@ -813,7 +1055,7 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
       <motion.div
         initial={{ opacity: 0, scale: 1.05 }}
         animate={
-          doorState === "opening" || doorState === "open"
+          isDoorsOpenState
             ? { opacity: 1, scale: 1 }
             : { opacity: 0, scale: 1.05 }
         }
@@ -839,7 +1081,7 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
           <motion.div
             initial={{ opacity: 0, x: -30, rotateY: -12 }}
             animate={
-              doorState === "opening" || doorState === "open"
+              isDoorsOpenState
                 ? { opacity: 1, x: 0, rotateY: 0 }
                 : { opacity: 0, x: -30, rotateY: -12 }
             }
@@ -882,7 +1124,7 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
             <motion.div
               initial={{ scale: 1.15, opacity: 0 }}
               animate={
-                doorState === "opening" || doorState === "open"
+                isDoorsOpenState
                   ? { scale: 1, opacity: 1 }
                   : { scale: 1.15, opacity: 0 }
               }
@@ -908,7 +1150,7 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
             <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={
-                doorState === "opening" || doorState === "open"
+                isDoorsOpenState
                   ? { opacity: 1, scale: 1 }
                   : { opacity: 0, scale: 0.8 }
               }
@@ -943,7 +1185,7 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
             <motion.h2
               initial={{ opacity: 0, y: 15 }}
               animate={
-                doorState === "opening" || doorState === "open"
+                isDoorsOpenState
                   ? { opacity: 1, y: 0 }
                   : { opacity: 0, y: 15 }
               }
@@ -963,7 +1205,7 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
             <motion.p
               initial={{ opacity: 0, y: 10 }}
               animate={
-                doorState === "opening" || doorState === "open"
+                isDoorsOpenState
                   ? { opacity: 1, y: 0 }
                   : { opacity: 0, y: 10 }
               }
@@ -983,7 +1225,7 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={
-                doorState === "opening" || doorState === "open"
+                isDoorsOpenState
                   ? { opacity: 1, y: 0 }
                   : { opacity: 0, y: 10 }
               }
@@ -1017,7 +1259,7 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
               <motion.div
                 initial={{ opacity: 0, y: 20, rotateY: -8 }}
                 animate={
-                  doorState === "opening" || doorState === "open"
+                  isDoorsOpenState
                     ? { opacity: 1, y: 0, rotateY: 0 }
                     : { opacity: 0, y: 20, rotateY: -8 }
                 }
@@ -1043,7 +1285,7 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
               <motion.div
                 initial={{ opacity: 0, y: 20, rotateY: 8 }}
                 animate={
-                  doorState === "opening" || doorState === "open"
+                  isDoorsOpenState
                     ? { opacity: 1, y: 0, rotateY: 0 }
                     : { opacity: 0, y: 20, rotateY: 8 }
                 }
@@ -1073,7 +1315,7 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
           <motion.div
             initial={{ opacity: 0, x: 30, rotateY: 12 }}
             animate={
-              doorState === "opening" || doorState === "open"
+              isDoorsOpenState
                 ? { opacity: 1, x: 0, rotateY: 0 }
                 : { opacity: 0, x: 30, rotateY: 12 }
             }
@@ -1115,7 +1357,7 @@ export default function Hero({ onDoorsOpen }: HeroProps) {
       {/* DOWN SCROLL INDICATOR */}
       <motion.div
         initial={{ opacity: 0 }}
-        animate={doorState === "open" ? { opacity: 1 } : { opacity: 0 }}
+        animate={doorState === "website-ready" ? { opacity: 1 } : { opacity: 0 }}
         transition={{ duration: 0.8 }}
         style={{
           position: "absolute",
